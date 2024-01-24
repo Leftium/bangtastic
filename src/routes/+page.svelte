@@ -1,8 +1,25 @@
 <script lang="ts">
 	import '@picocss/pico';
+
+	function onkeydown(this: HTMLInputElement, event: Event) {
+		const e = event as KeyboardEvent;
+
+		// Convert space to `!` if first character or follows another space:
+		if (e.key === ' ') {
+			if (this.value === '' || this.value.at(-1) === ' ') {
+				this.value += '!';
+				e.preventDefault();
+			}
+		}
+
+		// Handle double tap space to ". " on iOS:
+		if (e.key === '. ') {
+			this.value += ' !';
+			e.preventDefault();
+		}
+	}
 </script>
 
 <main class="container">
-	<h1>Welcome to SvelteKit</h1>
-	<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+	<input autocapitalize="none" {onkeydown} />
 </main>
