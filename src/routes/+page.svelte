@@ -41,7 +41,7 @@
 				...bang
 			};
 		})
-		.filter((bang) => bang.uCountNormalized > 1)
+		//.filter((bang) => bang.uCountNormalized > 1)
 		.orderBy(['uCountNormalized', 'r', 'tLength'], ['desc', 'desc', 'desc'])
 		.value();
 
@@ -100,6 +100,12 @@
 		return bangs;
 	});
 
+	const outputBangs = _.chain(bangsNormalized)
+		.map((bangs) => bangs[0])
+		.orderBy(['r'], ['desc'])
+		.map(({ t, u, r, s, c, sc }) => ({ t, u, s }))
+		.value();
+
 	function onkeydown(this: HTMLInputElement, event: Event) {
 		const e = event as KeyboardEvent;
 
@@ -119,46 +125,72 @@
 	}
 
 	const columns = [
+		//'r',
 		't',
+		'u',
+		's'
+		/*
+		'c',
+		'sc',
+		'd',
 		'tLength',
 		'tMin',
 		'tMax',
 		'uCount',
 		'uCountNormalized',
-		'u',
-		'uNormalized',
-		'r',
-		's',
-		'c',
-		'sc',
-		'd'
+		'uNormalized'
+        */
 	];
 </script>
 
 <main class="container-fluid">
 	<input autocapitalize="none" type="search" {onkeydown} />
-	{#each bangsNormalized as bangs}
-		<table>
-			<thead>
+
+	<table>
+		<thead>
+			<tr>
+				<td>{'index'}</td>
+				{#each columns as columnName}
+					<td>{columnName}</td>
+				{/each}
+			</tr>
+		</thead>
+		<tbody>
+			{#each outputBangs as bang, index (bang.t)}
 				<tr>
-					<td>{'index'}</td>
+					<td>{index}</td>
 					{#each columns as columnName}
-						<td>{columnName}</td>
+						<td title={bang[columnName]}>{bang[columnName]}</td>
 					{/each}
 				</tr>
-			</thead>
-			<tbody>
-				{#each bangs as bang, index (bang.t)}
+			{/each}
+		</tbody>
+	</table>
+
+	{#if false}
+		{#each bangsNormalized as bangs}
+			<table>
+				<thead>
 					<tr>
-						<td>{index}</td>
+						<td>{'index'}</td>
 						{#each columns as columnName}
-							<td title={bang[columnName]}>{bang[columnName]}</td>
+							<td>{columnName}</td>
 						{/each}
 					</tr>
-				{/each}
-			</tbody>
-		</table>
-	{/each}
+				</thead>
+				<tbody>
+					{#each bangs as bang, index (bang.t)}
+						<tr>
+							<td>{index}</td>
+							{#each columns as columnName}
+								<td title={bang[columnName]}>{bang[columnName]}</td>
+							{/each}
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		{/each}
+	{/if}
 </main>
 
 <style>
