@@ -49,9 +49,9 @@
 	const bangsNormalized = Object.values(
 		bangs.reduce(
 			(x, y) => {
-				(x[y.uNormalized] = x[y.uNormalized] || [{ t: '', tMin: y.tLength, tMax: y.tLength }]).push(
-					y
-				);
+				(x[y.uNormalized] = x[y.uNormalized] || [
+					{ tMin: y.tLength, tMax: y.tLength, t: '', u: '', s: '' }
+				]).push(y);
 
 				const merged = x[y.uNormalized][0];
 				if (merged) {
@@ -64,13 +64,39 @@
 			{} as Record<string, any>
 		)
 	).map((bangs) => {
-		// shortest, longest, highest score, rest
+		// triggers: shortest, longest, highest score, rest
 		const shortest = _.find(bangs, ['tLength', bangs[0].tMin]).t;
 		const longest = _.find(bangs, ['tLength', bangs[0].tMax]).t;
 
 		const t = _.uniq(_.concat(shortest, longest, _.map(bangs, 't'))).join(' ');
 
 		bangs[0].t = t;
+
+		const u = _.chain(bangs)
+			.map('u')
+			.sortBy([(u) => u.length, (u) => /^https/.test(u)])
+			.value()[1]
+			.replace('{{{s}}}', '{s}');
+
+		const s = _.chain(bangs)
+			.map('s')
+			.sortBy([(u) => -u.length])
+			.value()[0];
+
+		const { r, c, sc } = _.chain(bangs)
+			.map(({ r, c, sc }) => ({ r, c, sc }))
+			.orderBy(['r'], ['desc'])
+			.value()[1];
+
+		bangs[0] = {
+			...bangs[0],
+			t,
+			u,
+			s,
+			r,
+			c,
+			sc
+		};
 		return bangs;
 	});
 
