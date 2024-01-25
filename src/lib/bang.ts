@@ -63,7 +63,10 @@ const bangsNormalized = Object.values(
 	const shortest = _.find(bangs, ['tLength', bangs[0].tMin]).t;
 	const longest = _.find(bangs, ['tLength', bangs[0].tMax]).t;
 
-	const t = _.uniq(_.concat(shortest, longest, _.map(bangs, 't'))).join(' ');
+	const t = _.uniq(_.concat(shortest, longest, _.map(bangs, 't')))
+		.join(' ')
+		.trim()
+		.replace(/\s+/g, ' ');
 
 	bangs[0].t = t;
 
