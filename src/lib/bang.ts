@@ -34,6 +34,7 @@ function normalize(
 	let href = urlObject.href;
 	href = href.replaceAll(temporarySafePlaceholder, queryPlaceholder);
 	href = href.replaceAll(encodeURIComponent(queryPlaceholder), queryPlaceholder);
+	href = href.replace('/?', '?');
 
 	if (!keepProtocol) {
 		href = stripProtocol(href);
@@ -159,17 +160,21 @@ const bangsNormalized = Object.values(
 	return bangs;
 });
 
+function compactDomain(u: string) {
+	return u.replace(/^(internal)|(site)/, '');
+}
+
 export const bangs = _.chain(bangsNormalized)
 	.map((bangs) => bangs[0])
 	.orderBy(['r', 'uLength'], ['desc', 'desc'])
-	//.filter((bang) => bang.uNormalized?.includes('site/'))
+	//.filter((bang) => bang.domains == 'internal')
 	.map(({ t, domains, u, uNormalized, s, uLength, r }) => ({
 		s,
 		r,
 		t,
 		domains,
 		u: stripProtocol(u),
-		uNormalized: stripProtocol(uNormalized),
+		uNormalized: compactDomain(stripProtocol(uNormalized)),
 		uLength
 	}))
 	.value();

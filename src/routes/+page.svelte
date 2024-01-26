@@ -25,7 +25,7 @@
 		//'r',
 		// 't',
 		's',
-		// 'domains',
+		'domains',
 		'u',
 		'uNormalized'
 		//'uLength',
