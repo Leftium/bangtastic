@@ -3,6 +3,7 @@ import _ from 'lodash';
 import bangData from '$lib/bang-data/bang.json';
 
 import normalizeUrl from 'normalize-url';
+import { TidyURL } from 'tidy-url';
 
 const queryPlaceholder = '{}';
 const temporarySafePlaceholder = 'safe_temporary_placeholder';
@@ -34,7 +35,9 @@ function normalize(
 	let href = urlObject.href;
 	href = href.replaceAll(temporarySafePlaceholder, queryPlaceholder);
 	href = href.replaceAll(encodeURIComponent(queryPlaceholder), queryPlaceholder);
-	href = href.replace('/?', '?');
+	href = href.replaceAll('/?', '?');
+
+	href = TidyURL.clean(href).url;
 
 	if (!keepProtocol) {
 		href = stripProtocol(href);
@@ -161,7 +164,7 @@ const bangsNormalized = Object.values(
 });
 
 function compactDomain(u: string) {
-	return u.replace(/^(internal)|(site)/, '');
+	return u.replace(/^(internal)|(site)\?/, '');
 }
 
 export const bangs = _.chain(bangsNormalized)

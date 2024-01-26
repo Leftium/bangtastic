@@ -59,6 +59,9 @@ devDependencies:
   svelte-check:
     specifier: ^3.6.0
     version: 3.6.3(postcss@8.4.33)(svelte@5.0.0-next.38)
+  tidy-url:
+    specifier: ^1.10.5
+    version: 1.10.5
   tslib:
     specifier: ^2.4.1
     version: 2.6.2
@@ -1966,6 +1969,10 @@ packages:
 
   /text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
+    dev: true
+
+  /tidy-url@1.10.5:
+    resolution: {integrity: sha512-tyriDOcU/ecetfmiHnrj78oz5OfmClmGuSxHAC/UdoLpOzptYscSR8POLCnFdgWTANbZIErS2uZWrHo6aGhh1w==}
     dev: true
 
   /tiny-glob@0.2.9:
