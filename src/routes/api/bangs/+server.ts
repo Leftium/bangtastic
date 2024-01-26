@@ -19,7 +19,8 @@ export const GET = async ({ url }) => {
 	let bangsJson = bangs.map(({ s, t, domains, uNormalized }) => ({
 		s,
 		t,
-		d: domains,
+		d:
+			uNormalized.startsWith(domains) || ['internal', '{}'].includes(domains) ? undefined : domains,
 		u: uNormalized
 	}));
 
