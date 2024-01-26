@@ -101,5 +101,5 @@ const bangsNormalized = Object.values(
 export const bangs = _.chain(bangsNormalized)
 	.map((bangs) => bangs[0])
 	.orderBy(['r'], ['desc'])
-	.map(({ t, u, s }) => ({ t, u, s }))
+	.map(({ t, u, s }) => ({ s, t, u }))
 	.value();
