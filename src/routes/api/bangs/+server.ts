@@ -6,7 +6,7 @@ import { text, json } from '@sveltejs/kit';
 export const GET = async ({ url }) => {
 	function urlParam(name: string, shortName: string, defaultValue: string) {
 		return ['1', 'true'].includes(
-			url.searchParams.get('protocol') || url.searchParams.get('p') || defaultValue
+			url.searchParams.get(name) || url.searchParams.get(shortName) || defaultValue
 		);
 	}
 
@@ -30,10 +30,10 @@ export const GET = async ({ url }) => {
 		}));
 	}
 
-	const bangsList = bangsJson.map(({ t, u, s }) => [t, u, s]);
+	const bangsList = bangsJson.map(({ t, u, s }) => [s, t, u]);
 
 	if (format === 'text') {
-		return text(bangsJson.map(({ t, u, s }) => `${t}\n${u}\n${s}\n`).join('\n'));
+		return text(bangsJson.map(({ t, u, s }) => `${s}\n${t}\n${u}\n`).join('\n'));
 	}
 
 	if (format === 'oml') {
@@ -41,7 +41,7 @@ export const GET = async ({ url }) => {
 	}
 
 	if (format === 'oml-list') {
-		return text(Oml.stringify(bangsList, { reduceSimpleArray: true }));
+		return text(Oml.stringify(bangsList, { reduceSimpleArray: splitTriggers }));
 	}
 
 	if (format === 'json-list') {
