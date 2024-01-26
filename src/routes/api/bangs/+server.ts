@@ -42,7 +42,7 @@ export const GET = async ({ url }) => {
 	const bangsListUnzipped = _.unzip(bangsList);
 
 	const contentType = format.startsWith('json') ? 'application/json' : 'text/plain';
-	const filename = format.startsWith('json') ? `${format}.json` : `${format}.txt`;
+	const filename = 'bangs-' + (format.startsWith('json') ? `${format}.json` : `${format}.txt`);
 
 	const options = {
 		headers: {
