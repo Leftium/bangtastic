@@ -16,13 +16,20 @@ export const GET = async ({ url }) => {
 	const splitTriggers = urlParam('split-triggers', 's', 'false');
 	const indent = urlParam('indent', 'i', 'false');
 
-	let bangsJson = bangs.map(({ s, t, domains, uNormalized }) => ({
-		s,
-		t,
-		d:
-			uNormalized.startsWith(domains) || ['internal', '{}'].includes(domains) ? undefined : domains,
-		u: uNormalized
-	}));
+	let bangsJson = bangs.map(({ s, t, domains, uNormalized }) =>
+		uNormalized.startsWith(domains) || ['internal', '{}'].includes(domains)
+			? {
+					s,
+					t,
+					u: uNormalized
+				}
+			: {
+					s,
+					t,
+					d: domains,
+					u: uNormalized
+				}
+	);
 
 	if (!includeProtocol) {
 		bangsJson = bangsJson.map((bang) => ({

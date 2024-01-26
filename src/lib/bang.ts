@@ -166,7 +166,7 @@ function compactDomain(u: string) {
 
 export const bangs = _.chain(bangsNormalized)
 	.map((bangs) => bangs[0])
-	.orderBy(['r', 'uLength'], ['desc', 'desc'])
+	.orderBy(['uLength'], ['desc', 'desc'])
 	//.filter((bang) => bang.domains == 'internal')
 	.map(({ t, domains, u, uNormalized, s, uLength, r }) => ({
 		s,
