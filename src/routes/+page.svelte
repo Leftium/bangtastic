@@ -22,10 +22,11 @@
 	}
 
 	const columns = [
-		//'r',
-		't',
-		'u',
-		's'
+		'r',
+		// 't',
+		's',
+		'uLength',
+		'u'
 		/*
 		'c',
 		'sc',
@@ -92,7 +93,7 @@
 
 <style>
 	td {
-		max-width: 800px;
+		max-width: 400px;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;

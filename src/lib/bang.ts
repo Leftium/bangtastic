@@ -29,6 +29,7 @@ const augmentedBangs = _.chain(bangData)
 	.map((bang) => {
 		const normalizedUrl = normalize(bang.u);
 		return {
+			uLength: bang.u.length,
 			tLength: bang.t.length,
 			uCountNormalized: uniqueUrlsNormalized[normalizedUrl].length,
 			uCount: uniqueUrls[bang.u].length,
@@ -36,7 +37,6 @@ const augmentedBangs = _.chain(bangData)
 			...bang
 		};
 	})
-	//.filter((bang) => bang.uCountNormalized > 1)
 	.orderBy(['uCountNormalized', 'r', 'tLength'], ['desc', 'desc', 'desc'])
 	.value();
 
@@ -45,7 +45,7 @@ const bangsNormalized = Object.values(
 	augmentedBangs.reduce(
 		(x, y) => {
 			(x[y.uNormalized] = x[y.uNormalized] || [
-				{ tMin: y.tLength, tMax: y.tLength, t: '', u: '', s: '' }
+				{ tMin: y.tLength, tMax: y.tLength, uLength: 0, t: '', u: '', s: '' }
 			]).push(y);
 
 			const merged = x[y.uNormalized][0];
@@ -76,6 +76,10 @@ const bangsNormalized = Object.values(
 		.value()[1]
 		.replace('{{{s}}}', '{s}');
 
+	const uNormalized = normalize(u);
+
+	const uLength = u.length;
+
 	const s = _.chain(bangs)
 		.map('s')
 		.sortBy([(u) => -u.length])
@@ -89,7 +93,8 @@ const bangsNormalized = Object.values(
 	bangs[0] = {
 		...bangs[0],
 		t,
-		u,
+		u: uNormalized,
+		uLength,
 		s,
 		r,
 		c,
@@ -100,6 +105,6 @@ const bangsNormalized = Object.values(
 
 export const bangs = _.chain(bangsNormalized)
 	.map((bangs) => bangs[0])
-	.orderBy(['r'], ['desc'])
-	.map(({ t, u, s }) => ({ s, t, u }))
+	.orderBy(['r', 'uLength'], ['desc', 'desc'])
+	.map(({ t, u, s, uLength, r }) => ({ s, r, t, u, uLength }))
 	.value();
