@@ -23,10 +23,12 @@
 
 	const columns = [
 		'r',
-		// 't',
+		't',
 		's',
-		'uLength',
-		'u'
+		'domains',
+		//'uLength',
+		'uNormalized'
+		// 'u'
 		/*
 		'c',
 		'sc',
@@ -36,7 +38,6 @@
 		'tMax',
 		'uCount',
 		'uCountNormalized',
-		'uNormalized'
         */
 	];
 </script>

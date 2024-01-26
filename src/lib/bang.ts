@@ -4,26 +4,43 @@ import bangData from '$lib/bang-data/bang.json';
 
 import normalizeUrl from 'normalize-url';
 
+const queryPlaceholder = '{}';
+const temporarySafePlaceholder = 'safe_temporary_placeholder';
+
 const uniqueUrls: Record<string, any> = {};
 const uniqueUrlsNormalized: Record<string, any> = {};
 
-function normalize(url: string) {
+function stripProtocol(url: string) {
+	return url.replace(/^https?:\/\//, '');
+}
+
+function normalize(url: string, keepProtocol = false) {
 	if (url[0] === '/') {
-		url = 'duckduckgo.com' + url;
+		url = 'internal' + url;
 	}
-	url = url.toLocaleLowerCase().replace('{{{s}}}', 'QUERY');
-	return normalizeUrl(url, {
-		stripProtocol: true
-	});
+
+	url = url.replaceAll(queryPlaceholder, temporarySafePlaceholder);
+	const urlObject = new URL(normalizeUrl(url));
+	if (/[^-](site:[^+])|(inurl:http)/.test(urlObject.search)) {
+		urlObject.hostname = 'site';
+	}
+
+	let href = urlObject.href;
+	href = href.replaceAll(temporarySafePlaceholder, queryPlaceholder);
+	href = href.replaceAll(encodeURIComponent(queryPlaceholder), queryPlaceholder);
+
+	if (!keepProtocol) {
+		href = stripProtocol(href);
+	}
+
+	return href;
 }
 
 const augmentedBangs = _.chain(bangData)
 	.map((bang) => {
-		const normalizedUrl = normalize(bang.u);
-		(uniqueUrlsNormalized[normalizedUrl] = uniqueUrlsNormalized[normalizedUrl] || []).push(bang.t);
-
+		const urlKey = normalize(bang.u);
+		(uniqueUrlsNormalized[urlKey] = uniqueUrlsNormalized[urlKey] || []).push(bang.t);
 		(uniqueUrls[bang.u] = uniqueUrls[bang.u] || []).push(bang.t);
-
 		return bang;
 	})
 	.map((bang) => {
@@ -74,11 +91,32 @@ const bangsNormalized = Object.values(
 		.map('u')
 		.sortBy([(u) => u.length, (u) => /^https/.test(u)])
 		.value()[1]
-		.replace('{{{s}}}', '{s}');
-
-	const uNormalized = normalize(u);
+		.replaceAll('{{{s}}}', queryPlaceholder);
 
 	const uLength = u.length;
+	const uNormalized = normalize(u, true);
+
+	const url = new URL(uNormalized);
+
+	// Extracts domain from site: in search params.
+	function siteDomain(u: string) {
+		const url = new URL(u);
+
+		if (url.hostname == 'site') {
+			const matchSites =
+				url.search.match(/site:([^+&\]]*)/) || url.search.match(/inurl:([^+&\]]*)/);
+
+			if (matchSites) {
+				return matchSites[1]
+					.split(',')
+					.map((site) => stripProtocol(site).replace(/\/.*/, '').replace('www.', ''))
+					.join(' ');
+			}
+		}
+		return null;
+	}
+
+	const domains = siteDomain(uNormalized) || stripProtocol(url.hostname).replace('www.', '');
 
 	const s = _.chain(bangs)
 		.map('s')
@@ -93,7 +131,9 @@ const bangsNormalized = Object.values(
 	bangs[0] = {
 		...bangs[0],
 		t,
-		u: uNormalized,
+		u,
+		domains,
+		uNormalized,
 		uLength,
 		s,
 		r,
@@ -106,5 +146,14 @@ const bangsNormalized = Object.values(
 export const bangs = _.chain(bangsNormalized)
 	.map((bangs) => bangs[0])
 	.orderBy(['r', 'uLength'], ['desc', 'desc'])
-	.map(({ t, u, s, uLength, r }) => ({ s, r, t, u, uLength }))
+	//.filter((bang) => bang.uNormalized?.includes('site/'))
+	.map(({ t, domains, u, uNormalized, s, uLength, r }) => ({
+		s,
+		r,
+		t,
+		domains,
+		u,
+		uNormalized,
+		uLength
+	}))
 	.value();
