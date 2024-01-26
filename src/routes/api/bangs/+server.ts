@@ -15,27 +15,32 @@ export const GET = async ({ url }) => {
 	const includeProtocol = urlParam('protocol', 'p', 'true');
 	const splitTriggers = urlParam('split-triggers', 's', 'false');
 
-	let bangsJson = bangs;
+	let bangsJson = bangs.map(({ s, t, domains, uNormalized }) => ({
+		s,
+		t,
+		d: domains,
+		u: uNormalized
+	}));
 
 	if (!includeProtocol) {
-		bangsJson = bangs.map((bang) => ({
+		bangsJson = bangsJson.map((bang) => ({
 			...bang,
 			u: bang.u.replace(/^https?:\/\//, '')
 		}));
 	}
 
 	if (splitTriggers) {
-		bangsJson = bangs.map((bang) => ({
+		bangsJson = bangsJson.map((bang) => ({
 			...bang,
 			t: bang.t.split(' ')
 		}));
 	}
 
-	const bangsList = bangsJson.map(({ t, u, s }) => [s, t, u]);
+	const bangsList = bangsJson.map(({ t, u, s, d }) => [s, t, d, u]);
 	const bangsListUnzipped = _.unzip(bangsList);
 
 	if (format === 'text') {
-		return text(bangsJson.map(({ t, u, s }) => `${s}\n${t}\n${u}\n`).join('\n'));
+		return text(bangsList.map((bang) => bang.join('\n')).join('\n\n'));
 	}
 	if (format === 'text-unzipped') {
 		return text(bangsListUnzipped.map((items) => items.join('\n')).join('\n\n'));
