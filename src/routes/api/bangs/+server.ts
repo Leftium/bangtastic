@@ -14,6 +14,7 @@ export const GET = async ({ url }) => {
 	const format = url.searchParams.get('format') || url.searchParams.get('f');
 	const includeProtocol = urlParam('protocol', 'p', 'true');
 	const splitTriggers = urlParam('split-triggers', 's', 'false');
+	const indent = urlParam('indent', 'i', 'false');
 
 	let bangsJson = bangs.map(({ s, t, domains, uNormalized }) => ({
 		s,
@@ -47,24 +48,26 @@ export const GET = async ({ url }) => {
 	}
 
 	if (format === 'oml') {
-		return text(Oml.stringify(bangsJson, {}));
+		return text(Oml.stringify(bangsJson, indent ? {} : null));
 	}
 
 	if (format === 'oml-list') {
-		return text(Oml.stringify(bangsList, { reduceSimpleArray: splitTriggers }));
+		return text(Oml.stringify(bangsList, indent ? { reduceSimpleArray: splitTriggers } : null));
 	}
 
 	if (format === 'oml-list-unzipped') {
-		return text(Oml.stringify(bangsListUnzipped, { reduceSimpleArray: false }));
+		return text(Oml.stringify(bangsListUnzipped, indent ? { reduceSimpleArray: false } : null));
 	}
 
 	if (format === 'json-list') {
-		return text(JSON.stringify(bangsList, null, '\t'));
+		return text(indent ? JSON.stringify(bangsList, null, '\t') : JSON.stringify(bangsList));
 	}
 
 	if (format === 'json-list-unzipped') {
-		return text(JSON.stringify(bangsListUnzipped, null, '\t'));
+		return text(
+			indent ? JSON.stringify(bangsListUnzipped, null, '\t') : JSON.stringify(bangsListUnzipped)
+		);
 	}
 
-	return text(JSON.stringify(bangsJson, null, '\t'));
+	return text(indent ? JSON.stringify(bangsJson, null, '\t') : JSON.stringify(bangsJson));
 };
