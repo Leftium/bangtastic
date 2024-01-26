@@ -7,18 +7,23 @@ export const GET = async ({ url }) => {
 		url.searchParams.get('protocol') || url.searchParams.get('p') || 'true'
 	);
 
-	let bangsOutput = bangs;
+	let bangsJson = bangs;
 
 	if (!includeProtocol) {
-		bangsOutput = bangs.map((bang) => ({
+		bangsJson = bangs.map((bang) => ({
 			...bang,
 			u: bang.u.replace(/^https?:\/\//, '')
 		}));
 	}
 
 	if (format === 'text') {
-		return text(bangsOutput.map(({ t, u, s }) => `${t}\n${u}\n${s}\n`).join('\n'));
+		return text(bangsJson.map(({ t, u, s }) => `${t}\n${u}\n${s}\n`).join('\n'));
 	}
 
-	return json(bangsOutput);
+	if (format === 'json-array') {
+		const bangsArray = bangs.map(({ t, u, s }) => [t, u, s]);
+		return json(bangsArray);
+	}
+
+	return json(bangsJson);
 };
