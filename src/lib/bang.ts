@@ -14,7 +14,13 @@ function stripProtocol(url: string) {
 	return url.replace(/^https?:\/\//, '');
 }
 
-function normalize(url: string, keepProtocol = false) {
+function normalize(
+	url: string,
+	{ keepProtocol, keepCase }: { keepProtocol?: boolean; keepCase?: boolean } = {
+		keepProtocol: true,
+		keepCase: true
+	}
+) {
 	if (url[0] === '/') {
 		url = 'internal' + url;
 	}
@@ -33,24 +39,34 @@ function normalize(url: string, keepProtocol = false) {
 		href = stripProtocol(href);
 	}
 
+	if (keepCase) {
+		href = href.toLocaleLowerCase();
+	}
+
 	return href;
 }
 
 const augmentedBangs = _.chain(bangData)
 	.map((bang) => {
-		const urlKey = normalize(bang.u);
+		const urlKey = normalize(bang.u, {
+			keepProtocol: false,
+			keepCase: false
+		});
 		(uniqueUrlsNormalized[urlKey] = uniqueUrlsNormalized[urlKey] || []).push(bang.t);
 		(uniqueUrls[bang.u] = uniqueUrls[bang.u] || []).push(bang.t);
 		return bang;
 	})
 	.map((bang) => {
-		const normalizedUrl = normalize(bang.u);
+		const urlKey = normalize(bang.u, {
+			keepProtocol: false,
+			keepCase: false
+		});
 		return {
 			uLength: bang.u.length,
 			tLength: bang.t.length,
-			uCountNormalized: uniqueUrlsNormalized[normalizedUrl].length,
+			uCountNormalized: uniqueUrlsNormalized[urlKey].length,
 			uCount: uniqueUrls[bang.u].length,
-			uNormalized: normalizedUrl,
+			uNormalized: urlKey,
 			...bang
 		};
 	})
@@ -94,7 +110,7 @@ const bangsNormalized = Object.values(
 		.replaceAll('{{{s}}}', queryPlaceholder);
 
 	const uLength = u.length;
-	const uNormalized = normalize(u, true);
+	const uNormalized = normalize(u);
 
 	const url = new URL(uNormalized);
 
@@ -152,8 +168,8 @@ export const bangs = _.chain(bangsNormalized)
 		r,
 		t,
 		domains,
-		u,
-		uNormalized,
+		u: stripProtocol(u),
+		uNormalized: stripProtocol(uNormalized),
 		uLength
 	}))
 	.value();

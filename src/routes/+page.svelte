@@ -22,13 +22,13 @@
 	}
 
 	const columns = [
-		'r',
-		't',
+		//'r',
+		// 't',
 		's',
-		'domains',
-		//'uLength',
+		// 'domains',
+		'u',
 		'uNormalized'
-		// 'u'
+		//'uLength',
 		/*
 		'c',
 		'sc',
