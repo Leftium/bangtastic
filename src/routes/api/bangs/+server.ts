@@ -1,7 +1,7 @@
 import { Oml } from '@stenway/oml';
 
 import { bangs } from '$lib/bang';
-import { text, json } from '@sveltejs/kit';
+import { text } from '@sveltejs/kit';
 
 export const GET = async ({ url }) => {
 	function urlParam(name: string, shortName: string, defaultValue: string) {
@@ -45,8 +45,8 @@ export const GET = async ({ url }) => {
 	}
 
 	if (format === 'json-list') {
-		return json(bangsList);
+		return text(JSON.stringify(bangsList, null, '\t'));
 	}
 
-	return json(bangsJson);
+	return text(JSON.stringify(bangsJson, null, '\t'));
 };
