@@ -11,7 +11,7 @@ export const GET = async ({ url }) => {
 		);
 	}
 
-	const format = url.searchParams.get('format') || url.searchParams.get('f');
+	const format = url.searchParams.get('format') || url.searchParams.get('f') || 'json';
 	const includeProtocol = urlParam('protocol', 'p', 'true');
 	const splitTriggers = urlParam('split-triggers', 's', 'false');
 	const indent = urlParam('indent', 'i', 'false');
@@ -38,37 +38,57 @@ export const GET = async ({ url }) => {
 		}));
 	}
 
-	const bangsList = bangsJson.map(({ t, u, s, d }) => [s, t, d, u]);
+	const bangsList = bangsJson.map((bang) => Object.values(bang));
 	const bangsListUnzipped = _.unzip(bangsList);
 
+	const contentType = format.startsWith('json') ? 'application/json' : 'text/plain';
+	const filename = format.startsWith('json') ? `${format}.json` : `${format}.txt`;
+
+	const options = {
+		headers: {
+			'content-type': contentType,
+			'Content-Disposition': `inline; filename="${filename}"`
+		}
+	};
+
 	if (format === 'text') {
-		return text(bangsList.map((bang) => bang.join('\n')).join('\n\n'));
+		return text(bangsList.map((bang) => bang.join('\n')).join('\n\n'), options);
 	}
 	if (format === 'text-unzipped') {
-		return text(bangsListUnzipped.map((items) => items.join('\n')).join('\n\n'));
+		return text(bangsListUnzipped.map((items) => items.join('\n')).join('\n\n'), options);
 	}
 
 	if (format === 'oml') {
-		return text(Oml.stringify(bangsJson, indent ? {} : null));
+		return text(Oml.stringify(bangsJson, indent ? {} : null), options);
 	}
 
 	if (format === 'oml-list') {
-		return text(Oml.stringify(bangsList, indent ? { reduceSimpleArray: splitTriggers } : null));
+		return text(
+			Oml.stringify(bangsList, indent ? { reduceSimpleArray: splitTriggers } : null),
+			options
+		);
 	}
 
 	if (format === 'oml-list-unzipped') {
-		return text(Oml.stringify(bangsListUnzipped, indent ? { reduceSimpleArray: false } : null));
+		return text(
+			Oml.stringify(bangsListUnzipped, indent ? { reduceSimpleArray: false } : null),
+			options
+		);
 	}
 
 	if (format === 'json-list') {
-		return text(indent ? JSON.stringify(bangsList, null, '\t') : JSON.stringify(bangsList));
+		return text(
+			indent ? JSON.stringify(bangsList, null, '\t') : JSON.stringify(bangsList),
+			options
+		);
 	}
 
 	if (format === 'json-list-unzipped') {
 		return text(
-			indent ? JSON.stringify(bangsListUnzipped, null, '\t') : JSON.stringify(bangsListUnzipped)
+			indent ? JSON.stringify(bangsListUnzipped, null, '\t') : JSON.stringify(bangsListUnzipped),
+			options
 		);
 	}
 
-	return text(indent ? JSON.stringify(bangsJson, null, '\t') : JSON.stringify(bangsJson));
+	return text(indent ? JSON.stringify(bangsJson, null, '\t') : JSON.stringify(bangsJson), options);
 };
