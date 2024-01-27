@@ -32,6 +32,16 @@ function normalize(
 		urlObject.hostname = 'site';
 	}
 
+	// Strip extra Google custom search engine params.
+	if (urlObject.searchParams.get('cof')?.toLowerCase().includes('forid')) {
+		[...urlObject.searchParams.entries()]
+			.filter(([key, value]) => !value.includes(temporarySafePlaceholder))
+			.forEach(([key, value]) => {
+				urlObject.searchParams.delete(key, value);
+			});
+		// urlObject.searchParams.set('jkm', 'jkm');
+	}
+
 	let href = urlObject.href;
 	href = href.replaceAll(temporarySafePlaceholder, queryPlaceholder);
 	href = href.replaceAll(encodeURIComponent(queryPlaceholder), queryPlaceholder);
@@ -113,8 +123,8 @@ const bangsNormalized = Object.values(
 		.value()[1]
 		.replaceAll('{{{s}}}', queryPlaceholder);
 
-	const uLength = u.length;
 	const uNormalized = normalize(u);
+	const uLength = uNormalized.length;
 
 	const url = new URL(uNormalized);
 
