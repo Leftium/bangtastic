@@ -115,10 +115,25 @@ export const bangs = _.chain(bangData)
 			.get('t')
 			.value();
 
+		// Make list of triggers with shortest and longest first.
 		const t = _.uniq(_.concat(tShort, tlong, _.map(sources, 't')))
 			.join(' ')
 			.trim()
 			.replace(/\s+/g, ' ');
+
+		// Get highest ranked category; length breaks ties.
+		const c = _.chain(sources)
+			.orderBy(['r', ({ c }) => c?.length], ['desc', 'desc'])
+			.head()
+			.get('c')
+			.value();
+
+		// Get highest ranked sub-category; length breaks ties.
+		const sc = _.chain(sources)
+			.orderBy(['r', ({ sc }) => sc?.length], ['desc', 'desc'])
+			.head()
+			.get('sc')
+			.value();
 
 		// Get shortest url, preferring https.
 		const u = normalize(
@@ -133,8 +148,8 @@ export const bangs = _.chain(bangData)
 
 		const d =
 			siteDomain('http://' + uKey) || _.chain(sources).map('d').sortBy(['length']).head().value();
-		return { uKey, u, r, d, sources, s, t };
+		return { uKey, u, r, d, sources, s, t, c, sc };
 	})
-	//.filter(({ r }) => r > 1000)
+	.filter(({ r }) => r > 1000)
 	.orderBy([({ sources }) => sources.length], ['desc'])
 	.value();
