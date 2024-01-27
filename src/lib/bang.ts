@@ -150,6 +150,6 @@ export const bangs = _.chain(bangData)
 			siteDomain('http://' + uKey) || _.chain(sources).map('d').sortBy(['length']).head().value();
 		return { uKey, u, r, d, sources, s, t, c, sc };
 	})
-	//.filter(({ c }) => !c)
+	.filter(({ r }) => r > 10_000)
 	.orderBy([({ sources }) => sources.length], ['desc'])
 	.value();
