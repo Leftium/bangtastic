@@ -124,14 +124,14 @@ export const bangs = _.chain(bangData)
 		// Get highest ranked category; length breaks ties.
 		const c = _.chain(sources)
 			.orderBy(['r', ({ c }) => c?.length], ['desc', 'desc'])
-			.head()
+			.find('c')
 			.get('c')
 			.value();
 
 		// Get highest ranked sub-category; length breaks ties.
 		const sc = _.chain(sources)
 			.orderBy(['r', ({ sc }) => sc?.length], ['desc', 'desc'])
-			.head()
+			.find('sc')
 			.get('sc')
 			.value();
 
@@ -150,6 +150,6 @@ export const bangs = _.chain(bangData)
 			siteDomain('http://' + uKey) || _.chain(sources).map('d').sortBy(['length']).head().value();
 		return { uKey, u, r, d, sources, s, t, c, sc };
 	})
-	.filter(({ r }) => r > 1000)
+	//.filter(({ c }) => !c)
 	.orderBy([({ sources }) => sources.length], ['desc'])
 	.value();
