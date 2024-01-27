@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '@picocss/pico';
+	import _ from 'lodash';
 
 	export let data;
 
@@ -22,22 +23,21 @@
 	}
 
 	const columns = [
-		//'r',
-		// 't',
 		's',
-		'domains',
+		't',
 		'u',
-		'uNormalized'
-		//'uLength',
-		/*
-		'c',
-		'sc',
+		'uKey',
 		'd',
+		'r'
+		//'c',
+		//'sc',
+
+		/*
+		'uLength',
 		'tLength',
 		'tMin',
 		'tMax',
-		'uCount',
-		'uCountNormalized',
+		'uCount'
         */
 	];
 </script>
@@ -47,7 +47,7 @@
 
 	<table>
 		<thead>
-			<tr>
+			<tr class="header-row">
 				<td>{'index'}</td>
 				{#each columns as columnName}
 					<td>{columnName}</td>
@@ -55,41 +55,31 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each data.bangs as bang, index (bang.t)}
-				<tr>
+			{#each data.bangs as bang, index (bang.uKey)}
+				<tr class="main-row">
 					<td>{index}</td>
 					{#each columns as columnName}
-						<td title={bang[columnName]}>{bang[columnName]}</td>
+						{@const columnData = bang[columnName]}
+						{@const title = columnData?.length > 30 ? columnData : null}
+						<td {title}>{columnData}</td>
 					{/each}
 				</tr>
+				{#each bang.sources as source, sourceIndex (source.t)}
+					<tr>
+						<td style:opacity=".5">{sourceIndex}</td>
+						{#each columns as columnName}
+							{@const sourceColumnData = source[columnName]}
+							{@const title = sourceColumnData?.length > 30 ? sourceColumnData : null}
+							{@const alreadySeen =
+								sourceIndex !== _.findIndex(bang.sources, [columnName, sourceColumnData])}
+
+							<td {title} style:opacity={alreadySeen ? 0.3 : 1}>{sourceColumnData}</td>
+						{/each}
+					</tr>
+				{/each}
 			{/each}
 		</tbody>
 	</table>
-
-	{#if false}
-		{#each data.bangs as bangs}
-			<table>
-				<thead>
-					<tr>
-						<td>{'index'}</td>
-						{#each columns as columnName}
-							<td>{columnName}</td>
-						{/each}
-					</tr>
-				</thead>
-				<tbody>
-					{#each bangs as bang, index (bang.t)}
-						<tr>
-							<td>{index}</td>
-							{#each columns as columnName}
-								<td title={bang[columnName]}>{bang[columnName]}</td>
-							{/each}
-						</tr>
-					{/each}
-				</tbody>
-			</table>
-		{/each}
-	{/if}
 </main>
 
 <style>
@@ -98,5 +88,13 @@
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
+	}
+
+	.header-row td {
+		background-color: gray;
+	}
+
+	.main-row td {
+		background-color: lightgray;
 	}
 </style>

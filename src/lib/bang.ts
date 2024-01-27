@@ -5,11 +5,9 @@ import bangData from '$lib/bang-data/bang.json';
 import normalizeUrl from 'normalize-url';
 import { TidyURL } from 'tidy-url';
 
-const queryPlaceholder = '{}';
-const temporarySafePlaceholder = 'safe_temporary_placeholder';
-
-const uniqueUrls: Record<string, any> = {};
-const uniqueUrlsNormalized: Record<string, any> = {};
+const queryPlaceholder = '{q}';
+const bangProviderPlaceHolder = '{b}'; // Example: `duckduckgo.com`
+const siteProviderPlaceHolder = '{s}'; // Example: `google.com`
 
 function stripProtocol(url: string) {
 	return url.replace(/^https?:\/\//, '');
@@ -23,13 +21,15 @@ function normalize(
 	}
 ) {
 	if (url[0] === '/') {
-		url = 'internal' + url;
+		// User can switch between DuckDuckGo, Kagi, Google, etc.
+		url = bangProviderPlaceHolder + url;
 	}
 
+	const temporarySafePlaceholder = 'SAFE_PLACEHOLDER';
 	url = url.replaceAll(queryPlaceholder, temporarySafePlaceholder);
 	const urlObject = new URL(normalizeUrl(url));
 	if (/[^-](site:[^+])|(inurl:http)/.test(urlObject.search)) {
-		urlObject.hostname = 'site';
+		urlObject.hostname = siteProviderPlaceHolder;
 	}
 
 	// Strip extra Google custom search engine params.
@@ -53,141 +53,88 @@ function normalize(
 		href = stripProtocol(href);
 	}
 
-	if (keepCase) {
+	if (!keepCase) {
 		href = href.toLocaleLowerCase();
 	}
 
 	return href;
 }
 
-const augmentedBangs = _.chain(bangData)
-	.map((bang) => {
-		const urlKey = normalize(bang.u, {
-			keepProtocol: false,
-			keepCase: false
-		});
-		(uniqueUrlsNormalized[urlKey] = uniqueUrlsNormalized[urlKey] || []).push(bang.t);
-		(uniqueUrls[bang.u] = uniqueUrls[bang.u] || []).push(bang.t);
-		return bang;
-	})
-	.map((bang) => {
-		const urlKey = normalize(bang.u, {
-			keepProtocol: false,
-			keepCase: false
-		});
-		return {
-			uLength: bang.u.length,
-			tLength: bang.t.length,
-			uCountNormalized: uniqueUrlsNormalized[urlKey].length,
-			uCount: uniqueUrls[bang.u].length,
-			uNormalized: urlKey,
-			...bang
-		};
-	})
-	.orderBy(['uCountNormalized', 'r', 'tLength'], ['desc', 'desc', 'desc'])
-	.value();
+// Extracts domain from site: in search params.
+function siteDomain(u: string) {
+	const url = new URL(u);
 
-// https://stackoverflow.com/a/74581333/117030
-const bangsNormalized = Object.values(
-	augmentedBangs.reduce(
-		(x, y) => {
-			(x[y.uNormalized] = x[y.uNormalized] || [
-				{ tMin: y.tLength, tMax: y.tLength, uLength: 0, t: '', u: '', s: '' }
-			]).push(y);
+	if (url.hostname == siteProviderPlaceHolder) {
+		const matchSites = url.search.match(/site:([^+&\]]*)/) || url.search.match(/inurl:([^+&\]]*)/);
 
-			const merged = x[y.uNormalized][0];
-			if (merged) {
-				merged.tMax = Math.max(merged.tMax, y.tLength);
-				merged.tMin = Math.min(merged.tMin, y.tLength);
-			}
-
-			return x;
-		},
-		{} as Record<string, any>
-	)
-).map((bangs) => {
-	// triggers: shortest, longest, highest score, rest
-	const shortest = _.find(bangs, ['tLength', bangs[0].tMin]).t;
-	const longest = _.find(bangs, ['tLength', bangs[0].tMax]).t;
-
-	const t = _.uniq(_.concat(shortest, longest, _.map(bangs, 't')))
-		.join(' ')
-		.trim()
-		.replace(/\s+/g, ' ');
-
-	bangs[0].t = t;
-
-	const u = _.chain(bangs)
-		.map('u')
-		.sortBy([(u) => u.length, (u) => /^https/.test(u)])
-		.value()[1]
-		.replaceAll('{{{s}}}', queryPlaceholder);
-
-	const uNormalized = normalize(u);
-	const uLength = uNormalized.length;
-
-	const url = new URL(uNormalized);
-
-	// Extracts domain from site: in search params.
-	function siteDomain(u: string) {
-		const url = new URL(u);
-
-		if (url.hostname == 'site') {
-			const matchSites =
-				url.search.match(/site:([^+&\]]*)/) || url.search.match(/inurl:([^+&\]]*)/);
-
-			if (matchSites) {
-				return matchSites[1]
-					.split(',')
-					.map((site) => stripProtocol(site).replace(/\/.*/, '').replace('www.', ''))
-					.join(' ');
-			}
+		if (matchSites) {
+			return matchSites[1]
+				.split(',')
+				.map((siteOperator) => stripProtocol(siteOperator).replace(/\/.*/, '').replace('www.', ''))
+				.join(' ');
 		}
-		return null;
 	}
-
-	const domains = siteDomain(uNormalized) || stripProtocol(url.hostname).replace('www.', '');
-
-	const s = _.chain(bangs)
-		.map('s')
-		.sortBy([(u) => -u.length])
-		.value()[0];
-
-	const { r, c, sc } = _.chain(bangs)
-		.map(({ r, c, sc }) => ({ r, c, sc }))
-		.orderBy(['r'], ['desc'])
-		.value()[1];
-
-	bangs[0] = {
-		...bangs[0],
-		t,
-		u,
-		domains,
-		uNormalized,
-		uLength,
-		s,
-		r,
-		c,
-		sc
-	};
-	return bangs;
-});
-
-function compactDomain(u: string) {
-	return u.replace(/^(internal)|(site)\?/, '');
+	if (url.hostname == bangProviderPlaceHolder) {
+		return 'duckduckgo.com';
+	}
+	return url.hostname.replace('www.', '');
 }
 
-export const bangs = _.chain(bangsNormalized)
-	.map((bangs) => bangs[0])
-	.orderBy(['uLength'], ['desc', 'desc'])
-	//.filter((bang) => bang.domains == 'internal')
-	.map(({ t, domains, u, uNormalized, s, uLength, r }) => ({
-		s,
-		r,
-		t,
-		domains,
-		u: stripProtocol(u),
-		uNormalized: compactDomain(stripProtocol(uNormalized)),
-		uLength
+export const bangs = _.chain(bangData)
+	//.filter(({ r }) => r > 0)
+	.orderBy(['r'], ['desc'])
+	.map((bang) => ({
+		...bang,
+		uKey: normalize(bang.u.replaceAll('{{{s}}}', queryPlaceholder), {
+			keepProtocol: false,
+			keepCase: false
+		})
 	}))
+	.groupBy('uKey')
+	.map((sources, uKey) => {
+		const r = _.max(_.map(sources, 'r'));
+
+		// Get summary, prefer higher r.
+		const s = _.chain(sources)
+			.orderBy([({ r }) => r > 0, ({ s }) => s.length], ['desc', 'desc'])
+			.head()
+			.get('s')
+			.value();
+
+		// Get shortest trigger; higher r breaks ties.
+		const tShort = _.chain(sources)
+			.orderBy([({ t }) => t.length, 'r'], ['asc', 'desc'])
+			.head()
+			.get('t')
+			.value();
+
+		// Get longest trigger; higher r breaks ties.
+		const tlong = _.chain(sources)
+			.orderBy([({ t }) => t.length, 'r'], ['desc', 'desc'])
+			.head()
+			.get('t')
+			.value();
+
+		const t = _.uniq(_.concat(tShort, tlong, _.map(sources, 't')))
+			.join(' ')
+			.trim()
+			.replace(/\s+/g, ' ');
+
+		// Get shortest url, preferring https.
+		const u = normalize(
+			_.chain(sources)
+				.map('u')
+				.sortBy([(u) => !u.startsWith('https'), 'length'])
+				.head()
+				.value()
+				.replaceAll('{{{s}}}', queryPlaceholder),
+			{ keepProtocol: false, keepCase: true }
+		);
+
+		const d =
+			siteDomain('http://' + uKey) || _.chain(sources).map('d').sortBy(['length']).head().value();
+		return { uKey, u, r, d, sources, s, t };
+	})
+	//.filter(({ r }) => r > 1000)
+	.orderBy([({ sources }) => sources.length], ['desc'])
 	.value();
