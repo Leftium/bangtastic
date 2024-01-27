@@ -1,8 +1,24 @@
 <script lang="ts">
 	import '@picocss/pico';
+
 	import _ from 'lodash';
 
 	export let data;
+
+	const isTableOpen: Record<string, boolean> = {
+		[data.bangs[0].uKey]: true
+	};
+
+	const columns = {
+		s: 'summary',
+		t: 'triggers',
+		d: 'domain',
+		r: 'rank',
+		u: 'url',
+		uKey: 'normalized url key',
+		c: 'category',
+		sc: 'sub-category'
+	};
 
 	function onkeydown(this: HTMLInputElement, event: Event) {
 		const e = event as KeyboardEvent;
@@ -22,16 +38,11 @@
 		}
 	}
 
-	const columns = {
-		s: 'summary',
-		t: 'triggers',
-		d: 'domain',
-		r: 'rank',
-		u: 'url',
-		uKey: 'normalized url key',
-		c: 'category',
-		sc: 'sub-category'
-	};
+	function makeOnClick(key: string) {
+		return function () {
+			isTableOpen[key] = !isTableOpen[key];
+		};
+	}
 </script>
 
 <main class="container-fluid">
@@ -47,7 +58,7 @@
 		</thead>
 		<tbody>
 			{#each data.bangs as bang, index (bang.uKey)}
-				<tr class="main-row">
+				<tr class="main-row" onclick={makeOnClick(bang.uKey)}>
 					{#each Object.keys(columns) as columnName}
 						{@const columnData = bang[columnName]}
 						{@const title = columnData?.length > 30 ? columnData : null}
@@ -61,7 +72,7 @@
 					{/each}
 				</tr>
 				{#each bang.sources as source, sourceIndex (source.t)}
-					<tr>
+					<tr hidden={!isTableOpen[source.uKey]} onclick={makeOnClick(bang.uKey)}>
 						{#each Object.keys(columns) as columnName}
 							{@const sourceColumnData = source[columnName]}
 							{@const title = sourceColumnData?.length > 30 ? sourceColumnData : null}
