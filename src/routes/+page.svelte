@@ -22,24 +22,16 @@
 		}
 	}
 
-	const columns = [
-		's',
-		't',
-		'u',
-		'uKey',
-		'd',
-		'r'
-		//'c',
-		//'sc',
-
-		/*
-		'uLength',
-		'tLength',
-		'tMin',
-		'tMax',
-		'uCount'
-        */
-	];
+	const columns = {
+		s: 'summary',
+		t: 'triggers',
+		d: 'domain',
+		r: 'rank',
+		u: 'url',
+		uKey: 'normalized url key',
+		c: 'category',
+		sc: 'sub-category'
+	};
 </script>
 
 <main class="container-fluid">
@@ -48,32 +40,40 @@
 	<table>
 		<thead>
 			<tr class="header-row">
-				<td>{'index'}</td>
-				{#each columns as columnName}
-					<td>{columnName}</td>
+				{#each Object.entries(columns) as [columnName, note]}
+					<td>{columnName} ({note})</td>
 				{/each}
 			</tr>
 		</thead>
 		<tbody>
 			{#each data.bangs as bang, index (bang.uKey)}
 				<tr class="main-row">
-					<td>{index}</td>
-					{#each columns as columnName}
+					{#each Object.keys(columns) as columnName}
 						{@const columnData = bang[columnName]}
 						{@const title = columnData?.length > 30 ? columnData : null}
-						<td {title}>{columnData}</td>
+						<td {title}>
+							{#if columnName === 'uKey'}
+								{index} | {bang.uKey}
+							{:else}
+								{columnData}
+							{/if}
+						</td>
 					{/each}
 				</tr>
 				{#each bang.sources as source, sourceIndex (source.t)}
 					<tr>
-						<td style:opacity=".5">{sourceIndex}</td>
-						{#each columns as columnName}
+						{#each Object.keys(columns) as columnName}
 							{@const sourceColumnData = source[columnName]}
 							{@const title = sourceColumnData?.length > 30 ? sourceColumnData : null}
 							{@const alreadySeen =
 								sourceIndex !== _.findIndex(bang.sources, [columnName, sourceColumnData])}
-
-							<td {title} style:opacity={alreadySeen ? 0.3 : 1}>{sourceColumnData}</td>
+							<td {title} style:opacity={alreadySeen || columnName === 'uKey' ? 0.3 : 1}>
+								{#if columnName === 'uKey'}
+									{sourceIndex}
+								{:else}
+									{sourceColumnData}
+								{/if}
+							</td>
 						{/each}
 					</tr>
 				{/each}
