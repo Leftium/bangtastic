@@ -29,26 +29,27 @@
 
 <section bind:clientWidth class={$$props.class ?? ''}>
 	<header class:container={search || rowsPerPage}>
-		{#if search}
-			<Search {handler} />
-		{/if}
-		{#if rowsPerPage}
-			<RowsPerPage {handler} small={clientWidth < 600} />
-		{/if}
+		<div>
+			{#if rowCount}
+				<RowCount {handler} small={clientWidth < 600} />
+			{/if}
+			{#if pagination}
+				<Pagination {handler} small={clientWidth < 600} />
+			{/if}
+		</div>
+		<div>
+			{#if search}
+				<Search {handler} />
+			{/if}
+			{#if rowsPerPage}
+				<RowsPerPage {handler} small={clientWidth < 600} />
+			{/if}
+		</div>
 	</header>
 
 	<article bind:this={element} style="height:calc(100% - {height}px)">
 		<slot />
 	</article>
-
-	<footer class:container={rowCount || pagination}>
-		{#if rowCount}
-			<RowCount {handler} small={clientWidth < 600} />
-		{/if}
-		{#if pagination}
-			<Pagination {handler} small={clientWidth < 600} />
-		{/if}
-	</footer>
 </section>
 
 <style>
@@ -68,7 +69,7 @@
 		z-index: 1;
 	}
 
-	header,
+	header div,
 	footer {
 		min-height: 8px;
 		padding: 0 16px;
@@ -76,9 +77,9 @@
 		justify-content: space-between;
 		align-items: center;
 	}
-	header.container,
+	header.container div,
 	footer.container {
-		height: 48px;
+		height: /*48px*/ auto;
 	}
 	footer {
 		border-top: 1px solid #e0e0e0;
