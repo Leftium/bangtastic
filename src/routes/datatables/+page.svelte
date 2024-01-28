@@ -1,12 +1,27 @@
-<script>
+<script lang="ts">
 	import '$lib/css/global.css';
 
-	import { DataHandler, Datatable, Th, ThFilter } from '@vincjo/datatables';
+	import { DataHandler, Datatable, Th, ThFilter, type Field } from '@vincjo/datatables';
 
 	export let data;
 
-	const handler = new DataHandler(data.dataset, { rowsPerPage: 50 });
+	const handler = new DataHandler(data.dataset, { rowsPerPage: 500 });
 	const rows = handler.getRows();
+
+	const columns = {
+		s: 'summary',
+		t: 'triggers',
+		d: 'domain',
+		r: 'rank',
+		u: 'url',
+		uKey: 'normalized url key',
+		c: 'category',
+		sc: 'sub-category'
+	};
+
+	function columnsEntries(columns: Record<string, string>) {
+		return Object.entries(columns) as [name: Field<(typeof $rows)[0]>, note: string][];
+	}
 </script>
 
 <article class="table scroll-y" style="max-width:auto">
@@ -14,22 +29,30 @@
 		<table>
 			<thead>
 				<tr>
-					<Th {handler} orderBy="first_name">First Name</Th>
-					<Th {handler} orderBy="last_name">Last Name</Th>
-					<Th {handler} orderBy="email">Email</Th>
+					{#each columnsEntries(columns) as [columnName, note]}
+						<Th {handler} orderBy={columnName}>{columnName} {note}</Th>
+					{/each}
 				</tr>
 				<tr>
-					<ThFilter {handler} filterBy="first_name" />
-					<ThFilter {handler} filterBy="last_name" />
-					<ThFilter {handler} filterBy="email" />
+					{#each columnsEntries(columns) as [columnName]}
+						<ThFilter {handler} filterBy={columnName} />
+					{/each}
 				</tr>
 			</thead>
 			<tbody>
-				{#each $rows as row}
+				{#each $rows as bang, index (bang.uKey)}
 					<tr>
-						<td>{row.first_name}</td>
-						<td>{row.last_name}</td>
-						<td>{row.email}</td>
+						{#each columnsEntries(columns) as [columnName]}
+							{@const columnData = bang[columnName]}
+							{@const title = columnData?.length > 30 ? columnData : null}
+							<td {title}>
+								{#if columnName === 'uKey'}
+									{index} | {bang.uKey}
+								{:else}
+									{columnData}
+								{/if}
+							</td>
+						{/each}
 					</tr>
 				{/each}
 			</tbody>
@@ -40,9 +63,9 @@
 <style>
 	article {
 		max-width: 100%;
-		height: calc(100vh - 16px);
+		height: calc(100vh - 4px);
 
-		margin: 8px;
+		margin: 2px;
 
 		border: 1px solid #e0e0e0;
 		border-radius: 8px;
