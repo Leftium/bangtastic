@@ -20,41 +20,46 @@
 	let element: HTMLElement;
 	let clientWidth = 1000;
 
-	const height = (search || rowsPerPage ? 48 : 8) + (rowCount || pagination ? 48 : 8);
-
 	handler.on('change', () => {
 		if (element) element.scrollTop = 0;
 	});
 </script>
 
 <section bind:clientWidth class={$$props.class ?? ''}>
-	<header class:container={search || rowsPerPage}>
-		<div>
-			{#if rowCount}
-				<RowCount {handler} small={clientWidth < 600} />
-			{/if}
-			{#if pagination}
-				<Pagination {handler} small={clientWidth < 600} />
-			{/if}
-		</div>
-		<div>
-			{#if search}
-				<Search {handler} />
-			{/if}
-			{#if rowsPerPage}
-				<RowsPerPage {handler} small={clientWidth < 600} />
-			{/if}
-		</div>
-	</header>
-
-	<article bind:this={element} style="height:calc(100% - {height}px)">
-		<slot />
-	</article>
+	<div>
+		<header class:container={search || rowsPerPage}>
+			<div>
+				{#if rowCount}
+					<RowCount {handler} small={clientWidth < 600} />
+				{/if}
+				{#if pagination}
+					<Pagination {handler} small={clientWidth < 600} />
+				{/if}
+			</div>
+			<div>
+				{#if search}
+					<Search {handler} />
+				{/if}
+				{#if rowsPerPage}
+					<RowsPerPage {handler} small={clientWidth < 600} />
+				{/if}
+			</div>
+		</header>
+		<article bind:this={element}>
+			<slot />
+		</article>
+	</div>
 </section>
 
 <style>
-	section {
+	section,
+	section div {
 		height: 100%;
+	}
+
+	section div {
+		display: flex;
+		flex-direction: column;
 	}
 
 	section :global(table) {
@@ -74,12 +79,13 @@
 		min-height: 8px;
 		padding: 0 16px;
 		display: flex;
+		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
 	}
 	header.container div,
 	footer.container {
-		height: /*48px*/ auto;
+		height: auto;
 	}
 	footer {
 		border-top: 1px solid #e0e0e0;
@@ -87,7 +93,6 @@
 
 	article {
 		position: relative;
-		/* height:calc(100% - 96px); */
 		overflow: auto;
 		scrollbar-width: thin;
 	}
