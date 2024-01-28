@@ -12,10 +12,12 @@
 
 	export let handler: DataHandler<T>;
 
-	export let search = true;
-	export let rowsPerPage = true;
-	export let rowCount = true;
-	export let pagination = true;
+	type LocationFlag = boolean | 'header' | 'footer';
+
+	export let search: LocationFlag = 'header';
+	export let rowsPerPage: LocationFlag = 'header';
+	export let rowCount: LocationFlag = 'footer';
+	export let pagination: LocationFlag = 'footer';
 
 	let element: HTMLElement;
 	let clientWidth = 1000;
@@ -27,20 +29,20 @@
 
 <section bind:clientWidth class={$$props.class ?? ''}>
 	<div>
-		<header class:container={search || rowsPerPage}>
+		<header>
 			<div>
-				{#if rowCount}
+				{#if [true, 'header'].includes(rowCount)}
 					<RowCount {handler} small={clientWidth < 600} />
 				{/if}
-				{#if pagination}
+				{#if [true, 'header'].includes(pagination)}
 					<Pagination {handler} small={clientWidth < 600} />
 				{/if}
 			</div>
 			<div>
-				{#if search}
+				{#if [true, 'header'].includes(search)}
 					<Search {handler} />
 				{/if}
-				{#if rowsPerPage}
+				{#if [true, 'header'].includes(rowsPerPage)}
 					<RowsPerPage {handler} small={clientWidth < 600} />
 				{/if}
 			</div>
@@ -48,6 +50,24 @@
 		<article bind:this={element}>
 			<slot />
 		</article>
+		<footer>
+			<div>
+				{#if [true, 'footer'].includes(search)}
+					<Search {handler} />
+				{/if}
+				{#if [true, 'footer'].includes(rowsPerPage)}
+					<RowsPerPage {handler} small={clientWidth < 600} />
+				{/if}
+			</div>
+			<div>
+				{#if [true, 'footer'].includes(rowCount)}
+					<RowCount {handler} small={clientWidth < 600} />
+				{/if}
+				{#if [true, 'footer'].includes(pagination)}
+					<Pagination {handler} small={clientWidth < 600} />
+				{/if}
+			</div>
+		</footer>
 	</div>
 </section>
 
@@ -75,18 +95,18 @@
 	}
 
 	header div,
-	footer {
-		min-height: 8px;
-		padding: 0 16px;
+	footer div {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
-	}
-	header.container div,
-	footer.container {
+
+		min-height: 8px;
 		height: auto;
+
+		padding: 0 16px;
 	}
+
 	footer {
 		border-top: 1px solid #e0e0e0;
 	}

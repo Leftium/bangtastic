@@ -6,7 +6,7 @@
 
 	export let data;
 
-	const handler = new DataHandler(data.dataset, { rowsPerPage: 500 });
+	const handler = new DataHandler(data.dataset, { rowsPerPage: 100 });
 	const rows = handler.getRows();
 
 	const columns = {
@@ -26,7 +26,7 @@
 </script>
 
 <article class="table scroll-y" style="max-width:auto">
-	<Datatable {handler}>
+	<Datatable {handler} search={true} pagination={true} rowsPerPage={true} rowCount={true}>
 		<table>
 			<thead>
 				<tr>
