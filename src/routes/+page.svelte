@@ -6,7 +6,7 @@
 	export let data;
 
 	const isTableOpen: Record<string, boolean> = {
-		[data.bangs[0].uKey]: true
+		[data.bangs[0].n]: true
 	};
 
 	const columns = {
@@ -15,7 +15,7 @@
 		d: 'domain',
 		r: 'rank',
 		u: 'url',
-		uKey: 'normalized url key',
+		n: 'ormalized url key',
 		c: 'category',
 		sc: 'sub-category'
 	};
@@ -57,29 +57,23 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each data.bangs as bang, index (bang.uKey)}
-				<tr class="main-row" onclick={makeOnClick(bang.uKey)}>
+			{#each data.bangs as bang, index (bang.n)}
+				<tr class="main-row" onclick={makeOnClick(bang.n)}>
 					{#each Object.keys(columns) as columnName}
 						{@const columnData = bang[columnName]}
 						{@const title = columnData?.length > 30 ? columnData : null}
-						<td {title}>
-							{#if columnName === 'uKey'}
-								{index} | {bang.uKey}
-							{:else}
-								{columnData}
-							{/if}
-						</td>
+						<td {title}>{columnData}</td>
 					{/each}
 				</tr>
 				{#each bang.sources as source, sourceIndex (source.t)}
-					<tr hidden={!isTableOpen[source.uKey]} onclick={makeOnClick(bang.uKey)}>
+					<tr hidden={!isTableOpen[source.n]} onclick={makeOnClick(bang.n)}>
 						{#each Object.keys(columns) as columnName}
 							{@const sourceColumnData = source[columnName]}
 							{@const title = sourceColumnData?.length > 30 ? sourceColumnData : null}
 							{@const alreadySeen =
 								sourceIndex !== _.findIndex(bang.sources, [columnName, sourceColumnData])}
-							<td {title} style:opacity={alreadySeen || columnName === 'uKey' ? 0.3 : 1}>
-								{#if columnName === 'uKey'}
+							<td {title} style:opacity={alreadySeen || columnName === 'n' ? 0.3 : 1}>
+								{#if columnName === 'n'}
 									{sourceIndex}
 								{:else}
 									{sourceColumnData}

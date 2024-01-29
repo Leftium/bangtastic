@@ -85,13 +85,13 @@ export const bangs = _.chain(bangData)
 	.orderBy(['r'], ['desc'])
 	.map((bang) => ({
 		...bang,
-		uKey: normalize(bang.u.replaceAll('{{{s}}}', queryPlaceholder), {
+		n: normalize(bang.u.replaceAll('{{{s}}}', queryPlaceholder), {
 			keepProtocol: false,
 			keepCase: false
 		})
 	}))
-	.groupBy('uKey')
-	.map((sources, uKey) => {
+	.groupBy('n')
+	.map((sources, n) => {
 		const r = _.max(_.map(sources, 'r'));
 
 		// Get summary, prefer higher r.
@@ -143,8 +143,8 @@ export const bangs = _.chain(bangData)
 			.replaceAll('{{{s}}}', queryPlaceholder);
 
 		const d =
-			siteDomain('http://' + uKey) || _.chain(sources).map('d').sortBy(['length']).head().value();
-		return { uKey, u, r, d, sources, s, t, c, sc };
+			siteDomain('http://' + n) || _.chain(sources).map('d').sortBy(['length']).head().value();
+		return { n, u, r, d, sources, s, t, c, sc };
 	})
 	//.filter(({ r }) => r > 10_000)
 	.orderBy([({ sources }) => sources.length], ['desc'])

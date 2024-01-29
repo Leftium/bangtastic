@@ -15,7 +15,7 @@
 		d: 'omain',
 		r: 'ank',
 		u: 'rl',
-		uKey: ' normalized url key',
+		n: 'ormalized url',
 		c: 'ategory',
 		sc: ' sub-category'
 	};
@@ -41,7 +41,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each $rows as bang, index (bang.uKey)}
+				{#each $rows as bang, index (bang.n)}
 					<tr>
 						{#each columnsEntries(columns) as [columnName]}
 							{@const columnData = bang[columnName]}
