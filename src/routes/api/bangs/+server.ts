@@ -1,6 +1,6 @@
 import { Oml } from '@stenway/oml';
 
-import { bangs } from '$lib/bang';
+import bangs from '$bangdata/bang.json';
 import { text } from '@sveltejs/kit';
 import _ from 'lodash';
 
