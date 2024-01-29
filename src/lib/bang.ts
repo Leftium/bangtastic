@@ -118,8 +118,7 @@ export const bangs = _.chain(bangData)
 		// Make list of triggers with shortest and longest first.
 		const t = _.uniq(_.concat(tShort, tlong, _.map(sources, 't')))
 			.join(' ')
-			.trim()
-			.replace(/\s+/g, ' ');
+			.replace(/^|\s+/g, ' !');
 
 		// Get highest ranked category; length breaks ties.
 		const c = _.chain(sources)
