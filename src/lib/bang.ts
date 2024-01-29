@@ -135,15 +135,12 @@ export const bangs = _.chain(bangData)
 			.value();
 
 		// Get shortest url, preferring https.
-		const u = normalize(
-			_.chain(sources)
-				.map('u')
-				.sortBy([(u) => !u.startsWith('https'), 'length'])
-				.head()
-				.value()
-				.replaceAll('{{{s}}}', queryPlaceholder),
-			{ keepProtocol: false, keepCase: true }
-		);
+		const u = _.chain(sources)
+			.map('u')
+			.sortBy([(u) => !u.startsWith('https'), 'length'])
+			.head()
+			.value()
+			.replaceAll('{{{s}}}', queryPlaceholder);
 
 		const d =
 			siteDomain('http://' + uKey) || _.chain(sources).map('d').sortBy(['length']).head().value();
