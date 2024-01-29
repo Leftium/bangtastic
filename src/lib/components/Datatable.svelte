@@ -101,7 +101,6 @@
 		justify-content: space-between;
 		align-items: center;
 
-		min-height: 8px;
 		height: auto;
 
 		padding: 0 16px;
