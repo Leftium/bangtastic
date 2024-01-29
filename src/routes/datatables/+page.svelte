@@ -26,7 +26,7 @@
 </script>
 
 <article class="table scroll-y" style="max-width:auto">
-	<Datatable {handler} search={false} pagination="header" rowsPerPage={false} rowCount="header">
+	<Datatable {handler} rowCount={true} pagination={true} search={false} rowsPerPage={false}>
 		<table>
 			<thead>
 				<tr>

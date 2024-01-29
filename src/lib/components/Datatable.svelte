@@ -103,7 +103,7 @@
 
 		height: auto;
 
-		padding: 0 16px;
+		padding: 4px;
 	}
 
 	footer {
