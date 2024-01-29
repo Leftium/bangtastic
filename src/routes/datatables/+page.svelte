@@ -46,13 +46,7 @@
 						{#each columnsEntries(columns) as [columnName]}
 							{@const columnData = bang[columnName]}
 							{@const title = columnData?.length > 30 ? columnData : null}
-							<td {title}>
-								{#if columnName === 'uKey'}
-									{index} | {bang.uKey}
-								{:else}
-									{columnData}
-								{/if}
-							</td>
+							<td {title}>{columnData}</td>
 						{/each}
 					</tr>
 				{/each}
