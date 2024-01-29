@@ -10,14 +10,14 @@
 	const rows = handler.getRows();
 
 	const columns = {
-		s: 'summary',
-		t: 'triggers',
-		d: 'domain',
-		r: 'rank',
-		u: 'url',
-		uKey: 'normalized url key',
-		c: 'category',
-		sc: 'sub-category'
+		s: 'ummary',
+		t: 'riggers',
+		d: 'omain',
+		r: 'ank',
+		u: 'rl',
+		uKey: ' normalized url key',
+		c: 'ategory',
+		sc: ' sub-category'
 	};
 
 	function columnsEntries(columns: Record<string, string>) {
@@ -31,7 +31,7 @@
 			<thead>
 				<tr>
 					{#each columnsEntries(columns) as [columnName, note]}
-						<Th {handler} orderBy={columnName}>{columnName} {note}</Th>
+						<Th {handler} orderBy={columnName}>{columnName}<span class="note">{note}</span></Th>
 					{/each}
 				</tr>
 				<tr>
@@ -78,5 +78,9 @@
 	}
 	tbody tr:hover {
 		background: #f5f5f5;
+	}
+
+	span.note {
+		opacity: 0.5;
 	}
 </style>
