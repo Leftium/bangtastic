@@ -31,19 +31,19 @@
 	<div>
 		<header>
 			<div>
-				{#if [true, 'header'].includes(rowCount)}
-					<RowCount {handler} small={clientWidth < 600} />
-				{/if}
-				{#if [true, 'header'].includes(pagination)}
-					<Pagination {handler} small={clientWidth < 600} />
-				{/if}
-			</div>
-			<div>
 				{#if [true, 'header'].includes(search)}
 					<Search {handler} />
 				{/if}
 				{#if [true, 'header'].includes(rowsPerPage)}
 					<RowsPerPage {handler} small={clientWidth < 600} />
+				{/if}
+			</div>
+			<div>
+				{#if [true, 'header'].includes(rowCount)}
+					<RowCount {handler} small={clientWidth < 600} />
+				{/if}
+				{#if [true, 'header'].includes(pagination)}
+					<Pagination {handler} small={clientWidth < 600} />
 				{/if}
 			</div>
 		</header>
@@ -52,19 +52,19 @@
 		</article>
 		<footer>
 			<div>
-				{#if [true, 'footer'].includes(search)}
-					<Search {handler} />
-				{/if}
-				{#if [true, 'footer'].includes(rowsPerPage)}
-					<RowsPerPage {handler} small={clientWidth < 600} />
-				{/if}
-			</div>
-			<div>
 				{#if [true, 'footer'].includes(rowCount)}
 					<RowCount {handler} small={clientWidth < 600} />
 				{/if}
 				{#if [true, 'footer'].includes(pagination)}
 					<Pagination {handler} small={clientWidth < 600} />
+				{/if}
+			</div>
+			<div>
+				{#if [true, 'footer'].includes(search)}
+					<Search {handler} />
+				{/if}
+				{#if [true, 'footer'].includes(rowsPerPage)}
+					<RowsPerPage {handler} small={clientWidth < 600} />
 				{/if}
 			</div>
 		</footer>
