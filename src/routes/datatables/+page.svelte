@@ -3,6 +3,7 @@
 
 	import { DataHandler, Th, ThFilter, type Field } from '@vincjo/datatables';
 	import Datatable from '$lib/components/Datatable.svelte';
+	import { gg } from '$lib/util.js';
 
 	export let data;
 
@@ -21,6 +22,7 @@
 	};
 
 	function columnsEntries(columns: Record<string, string>) {
+		gg();
 		return Object.entries(columns) as [name: Field<(typeof $rows)[0]>, note: string][];
 	}
 </script>
