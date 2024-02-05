@@ -44,9 +44,22 @@ The bangtastic file format extends the DDG bang.js format.
 
 #### `t` is a list of triggers
 
+Multiple triggers often point to the same effective URL in DDG bang.js data.
+
+Grouping triggers together:
+- Reduces the file size
+- Makes it easier to find related triggers
+
+By convention, the shortest 'canonical' trigger is listed first, followed by the most descriptive/nmemonic triggers (usually the longest).
+
 #### `u` is a map of urls
 
-This allows the target url to change based on the type of input:
+Target URLs are normalized in bangtastic.json:
+- Protocol (https://) removed
+- `www.` removed
+- If either are required, the `http://` protocol may be explicitly included to override normalization.
+
+Using a map allows the target url to change based on the type of input:
 - `u.s` is required. (Search terms)
 - `u.e` defaults to the base path of `u.s` (Empty: no search terms.)
 - Other input types are optional and checked first:
