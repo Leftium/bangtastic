@@ -103,6 +103,33 @@ If the bang already does exist in the parent file, the bang is simply added.
 
 If the bang already exists in the parent file, the child file's data is merged into the parent file's data on a field-by-field basis.
 
+### Scopes
+
+Bangtastic bangs may be scoped. The concept is very similar to [NPM scopes](https://docs.npmjs.com/about-scopes).
+
+Scopes are useful for reusing bang triggers for different purposes/users:
+
+- `@kagi!images` uses `https://kagi.com/images?q={s}`
+- `@google!images` uses `https://www.google.com/search?q={s}&tbm=isch`
+- `@ddg!images` uses `https://duckduckgo.com/?q={s}&ia=images&iax=images`
+- `@leftium!images` uses the custom URL configured by user leftium
+- `!images` will use the default scope, which can be set by the user.
+
+*Note:* Kagi "internal bangs" are simply bangs in the @kagi scope.
+
+### Group Bangs
+
+Group bangs have two purposes:
+- Group related bangs together
+- Enable launching multiple bangs simultaneously.
+
+So group bangs constist of:
+- Name
+- Trigger(s)
+- List of member bangs (triggers)
+    - If a trigger ends in `*`, the bang is included in the group, but excluded from simultaneous launch.
+
+
 
 
 
