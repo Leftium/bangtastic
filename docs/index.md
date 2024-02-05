@@ -93,5 +93,17 @@ Example:
 - `{s1}` ... `{s9}` gets individual terms from the query split on whitespace (quoted text is treated as a single term)
 - `{s2:}` [slice notation](https://github.com/tc39/proposal-slice-notation) gets the remaining query after omitting the first 2 terms
 
+### Cascading
+
+Bangtasic files may extend other bangtastic files.
+
+This is useful for adding onto or amending other bangtastic files.
+
+If the bang already does exist in the parent file, the bang is simply added.
+
+If the bang already exists in the parent file, the child file's data is merged into the parent file's data on a field-by-field basis.
+
+
+
 
 
