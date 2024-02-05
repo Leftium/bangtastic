@@ -99,7 +99,7 @@ Bangtasic files may extend other bangtastic files.
 
 This is useful for adding onto or amending other bangtastic files.
 
-If the bang already does exist in the parent file, the bang is simply added.
+If the bang does not exist in the parent file, the bang is simply added.
 
 If the bang already exists in the parent file, the child file's data is merged into the parent file's data on a field-by-field basis.
 
