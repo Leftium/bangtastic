@@ -1,12 +1,12 @@
-# Bangtastic
+# Bangtastic!
 
 An alternative search box designed around search bangs. ([Edit these docs!](https://github.com/Leftium/bangtastic/edit/main/docs/index.md))
 
 - Currently in the research & design phase.
-- Prototype search box: https://bangtastic.vercel.app/
-- Docs: https://www.leftium.com/bangtastic
-- Browse bangtastic data: https://bangtastic.vercel.app/bangs
-- Browse source data from bang.js: https://bangtastic.vercel.app/bangs/sources
+- [Prototype search box](https://bangtastic.vercel.app)
+- [Documentation](https://www.leftium.com/bangtastic)
+- [Browse bangtastic data](https://bangtastic.vercel.app/bangs) (DuckDuckGo bang.js data merged and cleaned up)
+- [Browse source data from bang.js](https://bangtastic.vercel.app/bangs/sources) (Grouped by bangtastic normalized url)
 
 ## Bang.js file format
 
@@ -35,7 +35,7 @@ DuckDuckGo stores bangs as a list of JSON objects following this format:
 ]
 ```
 
-*Source:* https://webapps.stackexchange.com/a/162253/1530
+*Source:* [webapps.stackexchange.com](https://webapps.stackexchange.com/a/162253/1530)
 
 
 ## Bangtastic file format
