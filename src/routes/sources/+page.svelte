@@ -15,15 +15,20 @@
 	};
 
 	const columns = {
-		s: 'summary',
-		t: 'triggers',
-		d: 'domain',
-		r: 'rank',
-		u: 'url',
-		n: 'ormalized url key',
-		c: 'category',
-		sc: 'sub-category'
+		s: 'ummary',
+		t: 'riggers',
+		d: 'omain',
+		r: 'ank',
+		u: 'rl',
+		n: 'ormalized url',
+		c: 'ategory',
+		sc: ' sub-category'
 	};
+
+	function columnsEntries(columns: Record<string, string>) {
+		gg();
+		return Object.entries(columns) as [name: Field<(typeof $rows)[0]>, note: string][];
+	}
 
 	function onkeydown(this: HTMLInputElement, event: Event) {
 		const e = event as KeyboardEvent;
@@ -56,8 +61,8 @@
 	<table>
 		<thead>
 			<tr class="header-row">
-				{#each Object.entries(columns) as [columnName, note]}
-					<td>{columnName} ({note})</td>
+				{#each columnsEntries(columns) as [columnName, note]}
+					<td>{columnName}<span class="note">{note}</span></td>
 				{/each}
 			</tr>
 		</thead>
@@ -109,5 +114,9 @@
 
 	.main-row td {
 		background-color: lightgray;
+	}
+
+	span.note {
+		opacity: 0.5;
 	}
 </style>
