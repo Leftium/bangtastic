@@ -3,7 +3,12 @@
 
 	import _ from 'lodash';
 
+	import { gg } from '$lib/util';
+
 	export let data;
+
+	const filteredBangs = _.filter(data.bangs, ({ sources, r }) => r > 0 && sources.length > 2);
+	gg(filteredBangs.length);
 
 	const isTableOpen: Record<string, boolean> = {
 		[data.bangs[0].n]: true
@@ -57,7 +62,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each data.bangs as bang, index (bang.n)}
+			{#each filteredBangs as bang, index (bang.n)}
 				<tr class="main-row" onclick={makeOnClick(bang.n)}>
 					{#each Object.keys(columns) as columnName}
 						{@const columnData = bang[columnName]}
@@ -66,21 +71,24 @@
 					{/each}
 				</tr>
 				{#each bang.sources as source, sourceIndex (source.t)}
-					<tr hidden={!isTableOpen[source.n]} onclick={makeOnClick(bang.n)}>
-						{#each Object.keys(columns) as columnName}
-							{@const sourceColumnData = source[columnName]}
-							{@const title = sourceColumnData?.length > 30 ? sourceColumnData : null}
-							{@const alreadySeen =
-								sourceIndex !== _.findIndex(bang.sources, [columnName, sourceColumnData])}
-							<td {title} style:opacity={alreadySeen || columnName === 'n' ? 0.3 : 1}>
-								{#if columnName === 'n'}
-									{sourceIndex}
-								{:else}
-									{sourceColumnData}
-								{/if}
-							</td>
-						{/each}
-					</tr>
+					{@const hidden = !isTableOpen[source.n]}
+					{#if !hidden}
+						<tr {hidden} onclick={makeOnClick(bang.n)}>
+							{#each Object.keys(columns) as columnName}
+								{@const sourceColumnData = source[columnName]}
+								{@const title = sourceColumnData?.length > 30 ? sourceColumnData : null}
+								{@const alreadySeen =
+									sourceIndex !== _.findIndex(bang.sources, [columnName, sourceColumnData])}
+								<td {title} style:opacity={alreadySeen || columnName === 'n' ? 0.3 : 1}>
+									{#if columnName === 'n'}
+										{sourceIndex}
+									{:else}
+										{sourceColumnData}
+									{/if}
+								</td>
+							{/each}
+						</tr>
+					{/if}
 				{/each}
 			{/each}
 		</tbody>
