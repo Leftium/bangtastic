@@ -31,6 +31,9 @@
 
 	<ul>
 		<li>
+			<a href="https://www.leftium.com/bangtastic">About Bangtastic!</a>
+		</li>
+		<li>
 			<a href="/bangs">Browse bangtastic data</a> (DuckDuckGo bang.js data merged and cleaned up)
 		</li>
 		<li>
