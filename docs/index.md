@@ -134,7 +134,7 @@ So group bangs constist of:
 - Name
 - Trigger(s)
 - List of member bangs (triggers)
-    - If a trigger ends in `*`, the bang is included in the group, but excluded from simultaneous launch.
+    - Appending `*` to a trigger includes the bang in the group, but excludes it from simultaneous launch.
 
 
 
