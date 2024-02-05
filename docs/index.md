@@ -47,17 +47,18 @@ The bangtastic file format extends the DDG bang.js format.
 Multiple triggers often point to the same effective URL in DDG bang.js data.
 
 Grouping triggers together:
-- Reduces the file size
-- Makes it easier to find related triggers
+- Reduces the data/file size
+- Makes it easier to see related triggers
 
-By convention, the shortest 'canonical' trigger is listed first, followed by the most descriptive/nmemonic triggers (usually the longest).
+By convention, the shortest trigger is 'canonical' and listed first, followed by the most descriptive/nmemonic triggers (usually the longest).
 
 #### `u` is a map of urls
 
 Target URLs are normalized in bangtastic.json:
-- Protocol (https://) removed
+- `https://` protocol removed
 - `www.` removed
 - If either are required, the `http://` protocol may be explicitly included to override normalization.
+- TODO: support other protocols?
 
 Using a map allows the target url to change based on the type of input:
 - `u.s` is required. (Search terms)
@@ -92,6 +93,12 @@ Example:
 - Shortened to `{s}`
 - `{s1}` ... `{s9}` gets individual terms from the query split on whitespace (quoted text is treated as a single term)
 - `{s2:}` [slice notation](https://github.com/tc39/proposal-slice-notation) gets the remaining query after omitting the first 2 terms
+
+Access to individual terms in a search query enables:
+- bangs for forms that have multiple input fields
+- bangs whose URLs take extra parameters
+  -  `site:` in a site search
+  -  target/source languages on a translation page
 
 ### Cascading
 
