@@ -1,10 +1,12 @@
 # Bangtastic
 
-An alternative search box designed around search bangs.
+An alternative search box designed around search bangs. ([Edit these docs!](https://github.com/Leftium/bangtastic/edit/main/docs/index.md))
 
 - Currently in the research & design phase.
-- Browse bangtastic.js data: https://bangtastic.vercel.app/
-- Browse bang.js merged data: https://bangtastic.vercel.app/sources
+- Prototype search box: https://bangtastic.vercel.app/
+- Docs: https://www.leftium.com/bangtastic
+- Browse bangtastic data: https://bangtastic.vercel.app/bangs
+- Browse source data from bang.js: https://bangtastic.vercel.app/bangs/sources
 
 ## Bang.js file format
 
