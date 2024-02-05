@@ -120,7 +120,7 @@ Scopes are useful for reusing bang triggers for different purposes/users:
 - `@google!images` uses `https://www.google.com/search?q={s}&tbm=isch`
 - `@ddg!images` uses `https://duckduckgo.com/?q={s}&ia=images&iax=images`
 - `@leftium!images` uses the custom URL configured by user leftium
-- `!images` will use the default scope, which can be set by the user.
+- `!images` will use the default scope, which can be set by the user and/or service implementing the bangs.
 
 *Note:* Kagi "internal bangs" are simply bangs in the @kagi scope.
 
