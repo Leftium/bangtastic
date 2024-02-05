@@ -35,7 +35,7 @@
 		search={'header'}
 		rowsPerPage={'header'}
 	>
-		<table>
+		<table class="vincjo-datatables">
 			<thead>
 				<tr>
 					{#each columnsEntries(columns) as [columnName, note]}

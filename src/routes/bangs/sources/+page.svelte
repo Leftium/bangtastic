@@ -30,24 +30,6 @@
 		return Object.entries(columns) as [name: Field<(typeof $rows)[0]>, note: string][];
 	}
 
-	function onkeydown(this: HTMLInputElement, event: Event) {
-		const e = event as KeyboardEvent;
-
-		// Convert space to `!` if first character or follows another space:
-		if (e.key === ' ') {
-			if (this.value === '' || this.value.at(-1) === ' ') {
-				this.value += '!';
-				e.preventDefault();
-			}
-		}
-
-		// Handle double tap space to ". " on iOS:
-		if (e.key === '. ') {
-			this.value += ' !';
-			e.preventDefault();
-		}
-	}
-
 	function makeOnClick(key: string) {
 		return function () {
 			isTableOpen[key] = !isTableOpen[key];
@@ -56,8 +38,6 @@
 </script>
 
 <main class="container-fluid">
-	<input autocapitalize="none" type="search" {onkeydown} />
-
 	<table>
 		<thead>
 			<tr class="header-row">

@@ -59,6 +59,10 @@ pre {
 /* .hljs{background:var(--hljs);} */
 
 body {
+    margin: 0
+}
+
+.vincjo-datatables {
     margin: 0;
     font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell,
         Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
@@ -66,7 +70,7 @@ body {
     line-height: 1.5;
     color: #333;
 }
-body > * {
+.vincjo-datatables > * {
     scrollbar-width: thin;
 }
 
