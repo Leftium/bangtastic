@@ -1,6 +1,4 @@
 <script lang="ts">
-	import '@picocss/pico';
-
 	import _ from 'lodash';
 
 	import { gg } from '$lib/util';
@@ -37,7 +35,7 @@
 	}
 </script>
 
-<main class="container-fluid">
+<main class="pico container-fluid">
 	<table>
 		<thead>
 			<tr class="header-row">

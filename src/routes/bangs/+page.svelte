@@ -1,6 +1,4 @@
 <script lang="ts">
-	import '$lib/css/global.css';
-
 	import { DataHandler, Th, ThFilter, type Field } from '@vincjo/datatables';
 	import Datatable from '$lib/components/Datatable.svelte';
 	import { gg } from '$lib/util.js';

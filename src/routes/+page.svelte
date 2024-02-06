@@ -1,6 +1,4 @@
 <script lang="ts">
-	import '@picocss/pico';
-
 	import { gg } from '$lib/util';
 
 	// Bindings:
@@ -50,7 +48,7 @@
 
 <svelte:document {onvisibilitychange} {onkeydown} />
 
-<main class="container-fluid" {onclick} role="none">
+<main class="pico container-fluid" {onclick} role="none">
 	<!-- svelte-ignore a11y-autofocus -->
 	<input
 		bind:this={inputElement}
