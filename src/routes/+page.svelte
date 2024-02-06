@@ -6,7 +6,7 @@
 	import { gg } from '$lib/util';
 
 	// Bindings:
-	let inputElement: HTMLInputElement;
+	let inputElement = $state<HTMLInputElement>(undefined as any);
 	let value = $state('!hn Kagi');
 
 	let lastTime = +new Date();
