@@ -21,6 +21,7 @@
 				(inputElement?.selectionEnd || 0) - (inputElement?.selectionStart || 0)
 			) {
 				value = '!';
+				inputElement.selectionStart = inputElement.selectionEnd;
 				e.preventDefault();
 			}
 		}
