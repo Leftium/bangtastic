@@ -46,7 +46,7 @@
 	}
 </script>
 
-<svelte:document {onvisibilitychange} {onkeydown} />
+<svelte:document {onvisibilitychange} />
 
 <main class="pico container-fluid" {onclick} role="none">
 	<!-- svelte-ignore a11y-autofocus -->
