@@ -89,8 +89,9 @@ Example:
     }
 }
 ```
-
+<!--  {% raw %} --> 
 #### `{{{s}}}` template syntax has been changed
+<!-- {% endraw %} -->
 
 - Shortened to `{s}`
 - `{s1}` ... `{s9}` gets individual terms from the query split on whitespace (quoted text is treated as a single term)
