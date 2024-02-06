@@ -7,17 +7,9 @@
 	let inputElement = $state<HTMLInputElement>(undefined as any);
 	let value = $state('');
 
-	let lastTime = +new Date();
-	function ggDeltaTime() {
-		const now = +new Date();
-		gg(now - lastTime);
-		lastTime = now;
-	}
-
 	function onkeydown(this: HTMLInputElement, event: Event) {
 		const e = event as KeyboardEvent;
-		gg(e.key);
-		ggDeltaTime();
+		gg(e.key, e);
 
 		if (!['Tab', 'Shift', 'Ctrl', 'Alt'].includes(e.key)) {
 			inputElement.focus();
@@ -64,7 +56,6 @@
 		bind:this={inputElement}
 		bind:value
 		{onkeydown}
-		oninput={onkeydown}
 		autofocus
 		spellcheck="false"
 		autocomplete="off"
