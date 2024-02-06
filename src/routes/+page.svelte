@@ -1,8 +1,6 @@
 <script lang="ts">
 	import '@picocss/pico';
 
-	import _ from 'lodash';
-
 	import { gg } from '$lib/util';
 
 	// Bindings:
