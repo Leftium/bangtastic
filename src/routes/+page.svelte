@@ -7,8 +7,21 @@
 
 	export let data;
 
+	// Bindings:
+	let inputElement: HTMLInputElement;
+
+	let lastTime = +new Date();
+	function ggDeltaTime() {
+		const now = +new Date();
+		gg(now - lastTime);
+		lastTime = now;
+	}
+
 	function onkeydown(this: HTMLInputElement, event: Event) {
 		const e = event as KeyboardEvent;
+
+        gg(e);
+		ggDeltaTime();
 
 		// Convert space to `!` if first character or follows another space:
 		if (e.key === ' ') {
@@ -24,10 +37,23 @@
 			e.preventDefault();
 		}
 	}
+
+	function onclick(e: Event) {
+		gg();
+		inputElement.focus();
+	}
 </script>
 
-<main class="container-fluid">
-	<input autocapitalize="none" {onkeydown} />
+<main class="container-fluid" {onclick} role="none">
+	<!-- svelte-ignore a11y-autofocus -->
+	<input
+		bind:this={inputElement}
+		autocapitalize="none"
+		{onkeydown}
+		oninput={onkeydown}
+		autofocus
+		autocomplete="off"
+	/>
 
 	<ul>
 		<li>
@@ -46,5 +72,6 @@
 <style>
 	main {
 		margin: 4px 0;
+		height: calc(100svh - 8px);
 	}
 </style>
