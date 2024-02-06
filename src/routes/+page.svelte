@@ -5,7 +5,7 @@
 
 	// Bindings:
 	let inputElement = $state<HTMLInputElement>(undefined as any);
-	let value = $state('!hn Kagi');
+	let value = $state('');
 
 	let lastTime = +new Date();
 	function ggDeltaTime() {
