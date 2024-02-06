@@ -2,4 +2,6 @@
 	import '$lib/css/app.scss';
 </script>
 
-<slot />
+<div data-theme="light">
+	<slot />
+</div>
