@@ -9,10 +9,6 @@
 		const e = event as KeyboardEvent;
 		gg(e.key, e);
 
-		if (!['Tab', 'Shift', 'Ctrl', 'Alt'].includes(e.key)) {
-			inputElement.focus();
-		}
-
 		// Convert space to `!` if first character or follows another space:
 		if (e.key === ' ') {
 			if (value === '' || value.at(-1) === ' ') {
