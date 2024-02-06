@@ -5,10 +5,9 @@
 
 	import { gg } from '$lib/util';
 
-	export let data;
-
 	// Bindings:
 	let inputElement: HTMLInputElement;
+	let value = $state('!hn Kagi');
 
 	let lastTime = +new Date();
 	function ggDeltaTime() {
@@ -20,7 +19,7 @@
 	function onkeydown(this: HTMLInputElement, event: Event) {
 		const e = event as KeyboardEvent;
 
-        gg(e);
+		gg(e);
 		ggDeltaTime();
 
 		// Convert space to `!` if first character or follows another space:
@@ -36,23 +35,39 @@
 			this.value += ' !';
 			e.preventDefault();
 		}
+
+		// Execute search on Kagi.com:
+		if (e.key === 'Enter') {
+			window.open(`https://kagi.com/search?q=${value}`, '_blank');
+			e.preventDefault();
+		}
 	}
 
 	function onclick(e: Event) {
 		gg();
-		inputElement.focus();
+		inputElement.select();
+	}
+
+	function onvisibilitychange() {
+		if (document.visibilityState === 'visible') {
+			inputElement.select();
+		}
 	}
 </script>
+
+<svelte:document {onvisibilitychange} />
 
 <main class="container-fluid" {onclick} role="none">
 	<!-- svelte-ignore a11y-autofocus -->
 	<input
 		bind:this={inputElement}
+		bind:value
 		autocapitalize="none"
 		{onkeydown}
 		oninput={onkeydown}
 		autofocus
 		autocomplete="off"
+		spellcheck="false"
 	/>
 
 	<ul>
