@@ -16,21 +16,24 @@
 
 	function onkeydown(this: HTMLInputElement, event: Event) {
 		const e = event as KeyboardEvent;
-
-		gg(e);
+		gg(e.key);
 		ggDeltaTime();
+
+		if (!['Tab', 'Shift', 'Ctrl', 'Alt'].includes(e.key)) {
+			inputElement.focus();
+		}
 
 		// Convert space to `!` if first character or follows another space:
 		if (e.key === ' ') {
-			if (this.value === '' || this.value.at(-1) === ' ') {
-				this.value += '!';
+			if (value === '' || value.at(-1) === ' ') {
+				value += '!';
 				e.preventDefault();
 			}
 		}
 
 		// Handle double tap space to ". " on iOS:
 		if (e.key === '. ') {
-			this.value += ' !';
+			value += ' !';
 			e.preventDefault();
 		}
 
@@ -53,7 +56,7 @@
 	}
 </script>
 
-<svelte:document {onvisibilitychange} />
+<svelte:document {onvisibilitychange} {onkeydown} />
 
 <main class="container-fluid" {onclick} role="none">
 	<!-- svelte-ignore a11y-autofocus -->
