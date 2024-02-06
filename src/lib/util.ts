@@ -1,21 +1,30 @@
+import type { CallSite } from 'callsite';
+
 import debugFactory from 'debug';
 
 const GG_ENABLED = true;
 
 const timestampColumnNumberRegex = /(\?t=\d+)?(:\d+):\d+\)?$/;
 const swapPathFunctionNameRegex = /([ \][_.\S]+) \((.*)/;
+const swapPathFunctionNameRegexSafari = /([^@]+)@(.*)/;
 const lineNumberRegex = /:\d+ ?/;
 
 const callSiteFileNameCommonPrefix =
 	getStack()[0]
 		?.toString()
-		.match(/\((.*?\/)lib\//i)?.[1] || '';
+		.match(/[@(](.*?\/)lib\//i)?.[1] || '';
 
 function getStack() {
 	// Get stack array
 	const savedPrepareStackTrace = Error.prepareStackTrace;
 	Error.prepareStackTrace = (error, stack) => stack;
-	const { stack } = new Error();
+	const error = new Error();
+	let stack = error.stack as unknown as string | CallSite[] | string[];
+
+	if (typeof stack === 'string') {
+		stack = stack.split('\n');
+	}
+
 	Error.prepareStackTrace = savedPrepareStackTrace;
 	return stack || [];
 }
@@ -28,8 +37,11 @@ export function gg(...args: [...unknown[]]) {
 	const stack = getStack();
 
 	const caller = getStack()[2].toString() || '';
+
 	const callerClean = caller.replace(timestampColumnNumberRegex, '$2'); // Strip timestamp and/or column number.
-	const callerSwapped = callerClean.replace(swapPathFunctionNameRegex, '$2 $1'); // Put path in front of function name.
+	const callerSwapped = callerClean.includes('@')
+		? callerClean.replace(swapPathFunctionNameRegexSafari, '$2 $1') // Put path in front of function name.
+		: callerClean.replace(swapPathFunctionNameRegex, '$2 $1');
 	const callerFinal = callerSwapped
 		.replace(callSiteFileNameCommonPrefix, '')
 		.replace(lineNumberRegex, '| '); // Remove base path and line number.

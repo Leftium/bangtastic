@@ -18,6 +18,7 @@
 		"@sveltejs/adapter-auto": "^3.1.1",
 		"@sveltejs/kit": "^2.5.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.2",
+		"@types/callsite": "^1.0.34",
 		"@types/debug": "^4.1.12",
 		"@types/eslint": "8.56.0",
 		"@types/lodash": "^4.14.202",
