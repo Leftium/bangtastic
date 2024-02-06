@@ -27,7 +27,7 @@
 	}
 </script>
 
-<article class="table scroll-y" style="max-width:auto">
+<article class="table scroll-y vincjo-datatables" style="max-width:auto">
 	<Datatable
 		{handler}
 		rowCount={'header'}
@@ -35,7 +35,7 @@
 		search={'header'}
 		rowsPerPage={'header'}
 	>
-		<table class="vincjo-datatables">
+		<table>
 			<thead>
 				<tr>
 					{#each columnsEntries(columns) as [columnName, note]}
