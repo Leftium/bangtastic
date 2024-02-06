@@ -60,12 +60,13 @@
 	<input
 		bind:this={inputElement}
 		bind:value
-		autocapitalize="none"
 		{onkeydown}
 		oninput={onkeydown}
 		autofocus
-		autocomplete="off"
 		spellcheck="false"
+		autocomplete="off"
+		autocorrect="off"
+		autocapitalize="off"
 	/>
 
 	<ul>
