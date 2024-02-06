@@ -8,11 +8,19 @@
 	function onkeydown(this: HTMLInputElement, event: Event) {
 		const e = event as KeyboardEvent;
 		gg(e.key, e);
-
-		// Convert space to `!` if first character or follows another space:
 		if (e.key === ' ') {
+			// Convert space key to `!` if first character or follows another space:
 			if (value === '' || value.at(-1) === ' ') {
 				value += '!';
+				e.preventDefault();
+			}
+
+			// Convert selection to `!` if all selected:
+			if (
+				value.length ===
+				(inputElement?.selectionEnd || 0) - (inputElement?.selectionStart || 0)
+			) {
+				value = '!';
 				e.preventDefault();
 			}
 		}
