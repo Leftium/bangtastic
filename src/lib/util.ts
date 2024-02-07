@@ -1,5 +1,6 @@
 import type { CallSite } from 'callsite';
 
+import _ from 'lodash';
 import debugFactory from 'debug';
 
 const GG_ENABLED = true;
@@ -9,10 +10,35 @@ const swapPathFunctionNameRegex = /([ \][_.\S]+) \((.*)/;
 const swapPathFunctionNameRegexSafari = /([^@]+)@(.*)/;
 const lineNumberRegex = /:\d+ ?/;
 
-const callSiteFileNameCommonPrefix =
-	getStack()[0]
-		?.toString()
-		.match(/[@(](.*?\/)lib\//i)?.[1] || '';
+function callSiteCommonPathPrefixMatches(callSite: CallSite | string) {
+	return (
+		String(callSite).match(/[@(](?<prefix>.*?\/)lib\//i) ||
+		String(callSite).match(/[@(](?<prefix>.*chunks\/)/i)
+	);
+}
+
+// callSite formats on different environments:
+const callSites = [
+	// local dev
+	/* node   */ 'getStack (S:/p/bangtastic/src/lib/util.ts:21:17)',
+	/* chrome */ 'getStack (http://192.168.0.5:5173/src/lib/util.ts?t=1707273649942:18:17)',
+	/* safari */ 'getStack@http://192.168.0.5:5173/src/lib/util.ts:18:26',
+
+	// vercel (production)
+	/* node   */ 'getStack (file:///var/task/.svelte-kit/output/server/chunks/util.js:18:17)',
+	/* chrome */ 'y (https://bangtastic.vercel.app/_app/immutable/chunks/util.pMXJCmiz.js:1:6712)',
+	/* safari */ 'y@https://bangtastic.vercel.app/_app/immutable/chunks/util.pMXJCmiz.js:1:6721'
+];
+
+console.table(
+	_.zipObject(
+		callSites,
+		callSites.map((callSite: string) => callSiteCommonPathPrefixMatches(callSite))
+	)
+);
+
+const callSiteCommonPathPrefix =
+	callSiteCommonPathPrefixMatches(getStack()[0])?.groups?.prefix || '';
 
 // Show some info about gg
 const storage =
@@ -20,16 +46,9 @@ const storage =
 console.log({
 	GG_ENABLED,
 	'localStorage.debug': storage.getItem('debug'),
-	callSiteFileNameCommonPrefix,
+	callSiteCommonPathPrefix,
 	callSite: getStack()[0].toString()
 });
-
-// callSite formats on different environments:
-
-// local dev
-// chrome: getStack (http://192.168.0.5:5173/src/lib/util.ts?t=1707273649942:18:17)
-// node:   getStack (S:/p/bangtastic/src/lib/util.ts:21:17)
-// safari: getStack@http://192.168.0.5:5173/src/lib/util.ts:18:26
 
 function getStack() {
 	// Get stack array
@@ -60,7 +79,7 @@ export function gg(...args: [...unknown[]]) {
 		? callerClean.replace(swapPathFunctionNameRegexSafari, '$2 $1') // Put path in front of function name.
 		: callerClean.replace(swapPathFunctionNameRegex, '$2 $1');
 	const callerFinal = callerSwapped
-		.replace(callSiteFileNameCommonPrefix, '')
+		.replace(callSiteCommonPathPrefix, '')
 		.replace(lineNumberRegex, '| '); // Remove base path and line number.
 
 	// console.table({ caller, callerClean, callerSwapped, callerFinal })
