@@ -5,6 +5,10 @@
 	let inputElement = $state<HTMLInputElement>(undefined as any);
 	let value = $state('');
 
+	function selectionLength(inputElement: HTMLInputElement) {
+		return (inputElement.selectionEnd || 0) - (inputElement.selectionStart || 0);
+	}
+
 	function onkeydown(this: HTMLInputElement, event: Event) {
 		const e = event as KeyboardEvent;
 		gg(e.key, e);
@@ -16,10 +20,7 @@
 			}
 
 			// Convert selection to `!` if all selected:
-			if (
-				value.length ===
-				(inputElement?.selectionEnd || 0) - (inputElement?.selectionStart || 0)
-			) {
+			if (value.length === selectionLength(inputElement)) {
 				value = '!';
 				inputElement.selectionStart = inputElement.selectionEnd;
 				e.preventDefault();
@@ -39,9 +40,18 @@
 		}
 	}
 
-	function onclick(e: Event) {
-		gg();
-		inputElement.select();
+	function onmousedown(e: Event) {
+		if (document.activeElement !== inputElement) {
+			inputElement.focus();
+			if (selectionLength(inputElement) > 0) {
+				inputElement.selectionEnd = inputElement.selectionStart = value.length;
+			} else {
+				inputElement.selectionStart = 0;
+				inputElement.selectionEnd = value.length;
+			}
+
+			e.preventDefault();
+		}
 	}
 
 	function onvisibilitychange() {
@@ -51,9 +61,9 @@
 	}
 </script>
 
-<svelte:document {onvisibilitychange} />
+<svelte:document {onvisibilitychange} {onmousedown} />
 
-<main class="pico container-fluid" {onclick} role="none">
+<main class="pico container-fluid" role="none">
 	<!-- svelte-ignore a11y-autofocus -->
 	<input
 		bind:this={inputElement}
