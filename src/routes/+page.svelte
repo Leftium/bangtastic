@@ -41,17 +41,15 @@
 	}
 
 	function onmousedown(e: Event) {
-		if (document.activeElement !== inputElement) {
-			inputElement.focus();
-			if (selectionLength(inputElement) > 0) {
-				inputElement.selectionEnd = inputElement.selectionStart = value.length;
-			} else {
-				inputElement.selectionStart = 0;
-				inputElement.selectionEnd = value.length;
-			}
-
-			e.preventDefault();
+		inputElement.focus();
+		if (selectionLength(inputElement) > 0) {
+			inputElement.selectionEnd = inputElement.selectionStart = value.length;
+		} else {
+			inputElement.selectionStart = 0;
+			inputElement.selectionEnd = value.length;
 		}
+
+		e.preventDefault();
 	}
 
 	function onvisibilitychange() {
