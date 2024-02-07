@@ -20,8 +20,16 @@ const storage =
 console.log({
 	GG_ENABLED,
 	'localStorage.debug': storage.getItem('debug'),
-	callSiteFileNameCommonPrefix
+	callSiteFileNameCommonPrefix,
+	callSite: getStack()[0].toString()
 });
+
+// callSite formats on different environments:
+
+// local dev
+// chrome: getStack (http://192.168.0.5:5173/src/lib/util.ts?t=1707273649942:18:17)
+// node:   getStack (S:/p/bangtastic/src/lib/util.ts:21:17)
+// safari: getStack@http://192.168.0.5:5173/src/lib/util.ts:18:26
 
 function getStack() {
 	// Get stack array
