@@ -1,7 +1,10 @@
 import type { CallSite } from 'callsite';
 
-import _ from 'lodash';
+import * as dotenv from 'dotenv';
+
 import debugFactory from 'debug';
+
+import { browser } from '$app/environment';
 
 const GG_ENABLED = true;
 
@@ -15,6 +18,8 @@ function callSiteCommonPathPrefixMatches(callSite: CallSite | string) {
 }
 
 /*
+import _ from 'lodash';
+
 // prettier-ignore
 // callSite formats on different environments:
 const callSites = [
@@ -41,14 +46,28 @@ const callSiteCommonPathPrefix =
 	callSiteCommonPathPrefixMatches(getStack()[0])?.groups?.prefix || '';
 
 // Show some info about gg
-const storage =
-	typeof localStorage !== 'undefined' ? localStorage : { getItem: () => '', setItem: () => null };
+let ggMessage = `To enable gg logger/debugger output:
+${GG_ENABLED ? '✅' : '❌'} In code:    GG_ENABLED = true`;
+
+const gg_info: Record<string, unknown> = {
+	GG_ENABLED
+};
+
+if (browser) {
+	const debug = (gg_info['localStorage.debug'] = localStorage?.getItem('debug'));
+	ggMessage += `\n${debug ? '✅' : '❌'} In browser: localStorage.debug = '*'`;
+} else {
+	dotenv.config(); // Load the environment variables
+	const debug = (gg_info['process.env.DEBUG'] = process?.env?.DEBUG);
+	ggMessage += `\n${debug ? '✅' : '❌'} On server:  DEBUG=*'`;
+}
+
 console.log({
-	GG_ENABLED,
-	'localStorage.debug': storage.getItem('debug'),
-	callSiteCommonPathPrefix,
-	callSite: getStack()[0].toString()
+	callSite: getStack()[0].toString(),
+	callSiteCommonPathPrefix
 });
+console.table(gg_info);
+console.log(ggMessage);
 
 function getStack() {
 	// Get stack array
