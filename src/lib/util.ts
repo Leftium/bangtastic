@@ -14,6 +14,15 @@ const callSiteFileNameCommonPrefix =
 		?.toString()
 		.match(/[@(](.*?\/)lib\//i)?.[1] || '';
 
+// Show some info about gg
+const storage =
+	typeof localStorage !== 'undefined' ? localStorage : { getItem: () => '', setItem: () => null };
+console.log({
+	GG_ENABLED,
+	'localStorage.debug': storage.getItem('debug'),
+	callSiteFileNameCommonPrefix
+});
+
 function getStack() {
 	// Get stack array
 	const savedPrepareStackTrace = Error.prepareStackTrace;
