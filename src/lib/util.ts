@@ -13,7 +13,7 @@ const lineNumberRegex = /:\d+ ?/;
 function callSiteCommonPathPrefixMatches(callSite: CallSite | string) {
 	return (
 		String(callSite).match(/[@(](?<prefix>.*?\/)lib\//i) ||
-		String(callSite).match(/[@(](?<prefix>.*chunks\/)/i)
+		String(callSite).match(/[@(](?<prefix>.*\/)chunks\//i)
 	);
 }
 
