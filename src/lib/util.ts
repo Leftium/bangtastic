@@ -11,23 +11,22 @@ const swapPathFunctionNameRegexSafari = /([^@]+)@(.*)/;
 const lineNumberRegex = /:\d+ ?/;
 
 function callSiteCommonPathPrefixMatches(callSite: CallSite | string) {
-	return (
-		String(callSite).match(/[@(](?<prefix>.*?\/)lib\//i) ||
-		String(callSite).match(/[@(](?<prefix>.*\/)chunks\//i)
-	);
+	return String(callSite).match(/[@(](?<prefix>.*?\/)(?:lib|chunks)\//i);
 }
 
+/*
+// prettier-ignore
 // callSite formats on different environments:
 const callSites = [
 	// local dev
-	/* node   */ 'getStack (S:/p/bangtastic/src/lib/util.ts:21:17)',
-	/* chrome */ 'getStack (http://192.168.0.5:5173/src/lib/util.ts?t=1707273649942:18:17)',
-	/* safari */ 'getStack@http://192.168.0.5:5173/src/lib/util.ts:18:26',
+	'getStack (S:/p/bangtastic/src/lib/util.ts:21:17)',                         // node
+	'getStack (http://192.168.0.5:5173/src/lib/util.ts?t=1707273649942:18:17)', // chrome
+	'getStack@http://192.168.0.5:5173/src/lib/util.ts:18:26',                   // safari
 
 	// vercel (production)
-	/* node   */ 'getStack (file:///var/task/.svelte-kit/output/server/chunks/util.js:18:17)',
-	/* chrome */ 'y (https://bangtastic.vercel.app/_app/immutable/chunks/util.pMXJCmiz.js:1:6712)',
-	/* safari */ 'y@https://bangtastic.vercel.app/_app/immutable/chunks/util.pMXJCmiz.js:1:6721'
+	'getStack (file:///var/task/.svelte-kit/output/server/chunks/util.js:18:17)',      // node
+	'y (https://bangtastic.vercel.app/_app/immutable/chunks/util.pMXJCmiz.js:1:6712)', // chrome
+	'y@https://bangtastic.vercel.app/_app/immutable/chunks/util.pMXJCmiz.js:1:6721'    // safari
 ];
 
 console.table(
@@ -36,6 +35,7 @@ console.table(
 		callSites.map((callSite: string) => callSiteCommonPathPrefixMatches(callSite))
 	)
 );
+*/
 
 const callSiteCommonPathPrefix =
 	callSiteCommonPathPrefixMatches(getStack()[0])?.groups?.prefix || '';
