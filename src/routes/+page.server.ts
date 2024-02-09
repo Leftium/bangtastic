@@ -10,7 +10,7 @@ export const config = {
 		// with a __prerender_bypass=<token> cookie.
 		//
 		// Making a `GET` or `HEAD` request with `x-prerender-revalidate: <token>` will force the asset to be re-validated.
-		bypassToken: 'BYPASSBYPASSBYPASSBYPASS',
+		bypassToken: 'BYPASSBYTOKENBYPASSBYTOKENBYPASSBYTOKEN',
 
 		// List of valid query parameters. Other parameters (such as utm tracking codes) will be ignored,
 		// ensuring that they do not result in content being regenerated unnecessarily
