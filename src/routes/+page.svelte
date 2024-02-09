@@ -3,10 +3,24 @@
 
 	// Bindings:
 	let inputElement = $state<HTMLInputElement>(undefined as any);
+	let inputHasFocus = $state(false);
 	let value = $state('');
 
 	function selectionLength(inputElement: HTMLInputElement) {
 		return (inputElement.selectionEnd || 0) - (inputElement.selectionStart || 0);
+	}
+
+	function focusInput() {
+		inputElement.focus();
+		if (!inputHasFocus) {
+			inputElement.select();
+		}
+		inputHasFocus = true;
+	}
+
+	function blurInput() {
+		inputElement.blur();
+		inputHasFocus = false;
 	}
 
 	function onkeydown(this: HTMLInputElement, event: Event) {
@@ -35,27 +49,31 @@
 
 		// Execute search on Kagi.com:
 		if (e.key === 'Enter') {
-			inputElement.blur();
+			blurInput();
 			window.open(`https://kagi.com/search?q=${value}`, '_blank');
 			e.preventDefault();
 		}
 	}
 
 	function onmousedown(e: Event) {
-		inputElement.focus();
-		if (selectionLength(inputElement) > 0) {
-			inputElement.selectionEnd = inputElement.selectionStart = value.length;
-		} else {
-			inputElement.selectionStart = 0;
-			inputElement.selectionEnd = value.length;
+		if (inputHasFocus) {
+			if (selectionLength(inputElement) > 0) {
+				inputElement.selectionEnd = inputElement.selectionStart = value.length;
+			} else {
+				inputElement.selectionStart = 0;
+				inputElement.selectionEnd = value.length;
+			}
 		}
+		focusInput();
 
 		e.preventDefault();
 	}
 
 	function onvisibilitychange() {
 		if (document.visibilityState === 'visible') {
-			inputElement.select();
+			focusInput();
+		} else {
+			blurInput();
 		}
 	}
 </script>
