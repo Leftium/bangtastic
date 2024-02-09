@@ -35,6 +35,7 @@
 
 		// Execute search on Kagi.com:
 		if (e.key === 'Enter') {
+			inputElement.blur();
 			window.open(`https://kagi.com/search?q=${value}`, '_blank');
 			e.preventDefault();
 		}
