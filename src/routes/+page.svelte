@@ -2,7 +2,7 @@
 	import { gg } from '$lib/util';
 
 	// Bindings:
-	let inputElement = $state<HTMLInputElement>(undefined as any);
+	let inputElement = $state<HTMLInputElement>();
 	let inputHasFocus = $state(false);
 	let value = $state('');
 
@@ -11,15 +11,15 @@
 	}
 
 	function focusInput() {
-		inputElement.focus();
+		inputElement?.focus();
 		if (!inputHasFocus) {
-			inputElement.select();
+			inputElement?.select();
 		}
 		inputHasFocus = true;
 	}
 
 	function blurInput() {
-		inputElement.blur();
+		inputElement?.blur();
 		inputHasFocus = false;
 	}
 
@@ -34,7 +34,7 @@
 			}
 
 			// Convert selection to `!` if all selected:
-			if (value.length === selectionLength(inputElement)) {
+			if (inputElement && value.length === selectionLength(inputElement)) {
 				value = '!';
 				inputElement.selectionStart = inputElement.selectionEnd;
 				e.preventDefault();
@@ -56,7 +56,7 @@
 	}
 
 	function onmousedown(e: Event) {
-		if (inputHasFocus) {
+		if (inputElement && inputHasFocus) {
 			if (selectionLength(inputElement) > 0) {
 				inputElement.selectionEnd = inputElement.selectionStart = value.length;
 			} else {
