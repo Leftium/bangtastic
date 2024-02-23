@@ -13,7 +13,7 @@
 		"process-bangs": "esrun ./bangs/process-bangs.ts > ./bangs/data/bang.merged.json"
 	},
 	"devDependencies": {
-		"@picocss/pico": "2.0.0-rc4",
+		"@picocss/pico": "2.0.3",
 		"@stenway/oml": "^1.1.0",
 		"@sveltejs/adapter-auto": "^3.1.1",
 		"@sveltejs/kit": "^2.5.0",

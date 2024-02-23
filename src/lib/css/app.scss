@@ -1,2 +1,4 @@
-@use '@picocss/pico/scss/pico' with ($parent-selector: ".pico"
+@use '@picocss/pico/scss/pico' with (
+	$parent-selector: '.pico',
+	$theme-color: 'blue'
 );
