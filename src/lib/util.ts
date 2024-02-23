@@ -18,7 +18,7 @@ function callSiteCommonPathPrefixMatches(callSite: CallSite | string) {
 }
 
 /*
-import _ from 'lodash';
+import _ from 'lodash-es';
 
 // prettier-ignore
 // callSite formats on different environments:

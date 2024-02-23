@@ -2,7 +2,7 @@ import { Oml } from '@stenway/oml';
 
 import bangs from '$bangdata/bang.json';
 import { text } from '@sveltejs/kit';
-import _ from 'lodash';
+import _ from 'lodash-es';
 
 export const GET = async ({ url }) => {
 	function urlParam(name: string, shortName: string, defaultValue: string) {
