@@ -104,6 +104,7 @@
 			<a href="/bangs/sources">Browse source data from bang.js</a> (Grouped by bangtastic normalized
 			url)
 		</li>
+		<li><a href="https://mm.leftium.com">Multi-Launch</a></li>
 	</ul>
 </main>
 
