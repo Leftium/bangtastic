@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash-es';
 
 import bangData from '$bangdata/bang.json';
 
@@ -47,7 +47,10 @@ function normalize(
 	href = href.replaceAll(encodeURIComponent(queryPlaceholder), queryPlaceholder);
 	href = href.replaceAll('/?', '?');
 
-	href = TidyURL.clean(href).url;
+	// TidyURL error on this domain:
+	if (!href.includes('https://music.youtube.com')) {
+		href = TidyURL.clean(href).url;
+	}
 
 	if (!keepProtocol) {
 		href = stripProtocol(href);
