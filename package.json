@@ -11,7 +11,8 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"process-bangs": "esrun ./bangs/process-bangs.ts > ./bangs/data/bang.merged.json",
-		"download-bangs": "curl duckduckgo.com/bang.js | jq > ./bangs/data/duckduckgo/bang.json && curl -L https://github.com/kagisearch/bangs/raw/refs/heads/main/data/kagi_bangs.json | jq > ./bangs/data/kagi/kagi_bangs.json && curl -L https://github.com/kagisearch/bangs/raw/refs/heads/main/data/assistant_bangs.json | jq > ./bangs/data/kagi/assistant_bangs.json && curl -L https://github.com/kagisearch/bangs/raw/refs/heads/main/data/bangs.json | jq > ./bangs/data/kagi/bangs.json"
+		"download-bangs": "curl duckduckgo.com/bang.js | jq > ./bangs/data/duckduckgo/bang.json && curl -L https://github.com/kagisearch/bangs/raw/refs/heads/main/data/kagi_bangs.json | jq > ./bangs/data/kagi/kagi_bangs.json && curl -L https://github.com/kagisearch/bangs/raw/refs/heads/main/data/assistant_bangs.json | jq > ./bangs/data/kagi/assistant_bangs.json && curl -L https://github.com/kagisearch/bangs/raw/refs/heads/main/data/bangs.json | jq > ./bangs/data/kagi/bangs.json",
+		"tidy-bangs": "esrun ./bangs/tidy-bangs.ts"
 	},
 	"devDependencies": {
 		"@picocss/pico": "2.0.3",
@@ -22,7 +23,6 @@
 		"@types/callsite": "^1.0.34",
 		"@types/debug": "^4.1.12",
 		"@types/eslint": "8.56.3",
-		"@types/lodash-es": "^4.17.12",
 		"@types/node": "^20.11.20",
 		"@typescript-eslint/eslint-plugin": "^7.0.2",
 		"@typescript-eslint/parser": "^7.0.2",
@@ -33,7 +33,6 @@
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.35.1",
 		"esrun": "^3.2.26",
-		"lodash-es": "^4.17.21",
 		"normalize-url": "^8.0.0",
 		"prettier": "^3.2.5",
 		"prettier-plugin-svelte": "^3.2.1",
@@ -45,5 +44,9 @@
 		"typescript": "^5.3.3",
 		"vite": "^5.1.4"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@types/lodash": "^4.17.10",
+		"lodash": "^4.17.21"
+	}
 }

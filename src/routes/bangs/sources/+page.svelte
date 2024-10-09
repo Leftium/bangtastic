@@ -1,5 +1,5 @@
 <script lang="ts">
-	import _ from 'lodash-es';
+	import _ from 'lodash';
 
 	import { gg } from '$lib/util';
 
