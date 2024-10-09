@@ -1,6 +1,6 @@
 import _ from 'lodash-es';
 
-import bangData from '$bangdata/bang.json';
+import bangData from '$bangdata/duckduckgo/bang.json';
 
 import normalizeUrl from 'normalize-url';
 import { TidyURL } from 'tidy-url';

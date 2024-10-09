@@ -11,7 +11,7 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"process-bangs": "esrun ./bangs/process-bangs.ts > ./bangs/data/bang.merged.json",
-		"download-bangs": "curl duckduckgo.com/bang.js | jq > ./bangs/data/bang.json"
+		"download-bangs": "curl duckduckgo.com/bang.js | jq > ./bangs/data/duckduckgo/bang.json"
 	},
 	"devDependencies": {
 		"@picocss/pico": "2.0.3",
