@@ -12,7 +12,8 @@
 		"format": "prettier --write .",
 		"process-bangs": "esrun ./bangs/process-bangs.ts > ./bangs/data/bang.merged.json",
 		"download-bangs": "curl duckduckgo.com/bang.js | jq > ./bangs/data/duckduckgo/bang.json && curl -L https://github.com/kagisearch/bangs/raw/refs/heads/main/data/kagi_bangs.json | jq > ./bangs/data/kagi/kagi_bangs.json && curl -L https://github.com/kagisearch/bangs/raw/refs/heads/main/data/assistant_bangs.json | jq > ./bangs/data/kagi/assistant_bangs.json && curl -L https://github.com/kagisearch/bangs/raw/refs/heads/main/data/bangs.json | jq > ./bangs/data/kagi/bangs.json",
-		"tidy-bangs": "esrun ./bangs/tidy-bangs.ts"
+		"tidy-bangs": "esrun ./bangs/tidy-bangs.ts",
+		"optimize-bangs": "esrun ./bangs/optimize-bangs.ts"
 	},
 	"devDependencies": {
 		"@picocss/pico": "2.0.3",

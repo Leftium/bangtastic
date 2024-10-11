@@ -14,7 +14,7 @@ const filename = process.argv[2];
 
 const queryPlaceholder = '{{{s}}}';
 const bangProviderPlaceHolder = 'http://{b}'; // Example: `duckduckgo.com`
-const temporarySafePlaceholder = 'SAFE_PLACEHOLDER';
+const temporarySafePlaceholder = 'safe_placeholder';
 
 try {
 	const data = fs.readFileSync(filename, 'utf8');

@@ -19322,7 +19322,7 @@
     "s": "DeviantArt User",
     "d": "{{{s}}}.deviantart.com",
     "t": "dauser",
-    "u": "http://safe_placeholder.deviantart.com/",
+    "u": "http://{{{s}}}.deviantart.com/",
     "c": "Multimedia",
     "sc": "Images"
   },
@@ -44362,7 +44362,7 @@
     "s": "hypestat",
     "d": "www.{{{s}}}.hypestat.com",
     "t": "hypestat",
-    "u": "http://www.safe_placeholder.hypestat.com/",
+    "u": "http://www.{{{s}}}.hypestat.com/",
     "c": "Tech",
     "sc": "Domains"
   },
@@ -78167,7 +78167,7 @@
     "s": "Read the Docs",
     "d": "{{{s}}}.rtfd.io",
     "t": "rtfd",
-    "u": "http://safe_placeholder.rtfd.io/",
+    "u": "http://{{{s}}}.rtfd.io/",
     "c": "Tech",
     "sc": "Programming"
   },
@@ -87371,7 +87371,7 @@
     "s": "Tor 2 Web",
     "d": "{{{s}}}.tor2web.org",
     "t": "t2w",
-    "u": "https://safe_placeholder.tor2web.org/",
+    "u": "https://{{{s}}}.tor2web.org/",
     "c": "Tech",
     "sc": "Domains"
   },
@@ -91145,7 +91145,7 @@
     "s": "Tor 2 Web",
     "d": "{{{s}}}.tor2web.org",
     "t": "tor",
-    "u": "https://safe_placeholder.tor2web.org/",
+    "u": "https://{{{s}}}.tor2web.org/",
     "c": "Tech",
     "sc": "Domains"
   },
@@ -101088,7 +101088,7 @@
     "s": "WordPress.com",
     "d": "{{{s}}}.wordpress.com",
     "t": "wpblog",
-    "u": "http://safe_placeholder.wordpress.com/",
+    "u": "http://{{{s}}}.wordpress.com/",
     "c": "Entertainment",
     "sc": "Blogs"
   },
