@@ -17,6 +17,6 @@ IFILENAME="$DIR/$NAME.$EXT"
 OFILENAME="$DIR/$NAME.$SUFFIX.$EXT"
 EFILENAME="$DIR/$NAME.$SUFFIX.log.txt"
 
-# Run tidy-bangs; output to file, errors to terminal and file.
-echo "bun tidy-bangs $@ $IFILENAME > $OFILENAME 2> >(tee $EFILENAME >&2)"
-bun tidy-bangs $@ $IFILENAME > $OFILENAME 2> >(tee $EFILENAME >&2)
+# Run clean-bangs; output to file, errors to terminal and file.
+echo "bun clean-bangs $@ $IFILENAME > $OFILENAME 2> >(tee $EFILENAME >&2)"
+bun clean-bangs $@ $IFILENAME > $OFILENAME 2> >(tee $EFILENAME >&2)
