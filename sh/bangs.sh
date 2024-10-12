@@ -13,10 +13,14 @@ NAME="${BASE%.*}"
 EXT="${BASE##*.}"
 
 # Form filenames
-IFILENAME="$DIR/$NAME.$EXT"
-OFILENAME="$DIR/$NAME.$SUFFIX.$EXT"
-EFILENAME="$DIR/$NAME.$SUFFIX.log.txt"
+FILENAME_INPUT="$DIR/$NAME.$EXT"
+FILENAME_OUTPUT="$DIR/$NAME.$SUFFIX.$EXT"
+FILENAME_LOG="$DIR/$NAME.$SUFFIX.log.toml"
+
 
 # Run clean-bangs; output to file, errors to terminal and file.
-echo "bun clean-bangs $@ $IFILENAME > $OFILENAME 2> >(tee $EFILENAME >&2)"
-bun clean-bangs $@ $IFILENAME > $OFILENAME 2> >(tee $EFILENAME >&2)
+echo "bun clean-bangs $@ $FILENAME_INPUT > $FILENAME_OUTPUT 2> >(tee $FILENAME_LOG >&2)"
+bun clean-bangs $@ $FILENAME_INPUT > $FILENAME_OUTPUT 2> >(tee $FILENAME_LOG >&2)
+
+# Comment out all lines without TOML syntax (lines that don't start with single quote; FILENAME_LOG-specific convention.)
+sed -i -e "s/^[^'].*/# &/" $FILENAME_LOG

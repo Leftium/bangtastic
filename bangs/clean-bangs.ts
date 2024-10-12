@@ -28,6 +28,9 @@ try {
 	const data = fs.readFileSync(options.filename, 'utf8');
 	const json = JSON.parse(data);
 
+	const title = `Cleaning bangs:${options.trim ? ' trim' : ''}${options.unescapeUrl ? ' unescape-url' : ''}${options.stripGoogle ? ' strip-google' : ''}${options.tidyUrl ? ' tidy-url' : ''}`;
+	console.warn(`'title' = '${title}'`);
+
 	const results = _.chain(json)
 		.map((bang) => {
 			const keysUpdated: Record<string, { old: string; new: string }> = {};
@@ -131,7 +134,12 @@ try {
 
 			// Log what was updated to STDERR.
 			if (Object.keys(keysUpdated).length) {
-				console.warn(`\ntrigger: !${bang.t}`);
+				console.warn(
+					`\n'!${bang.t}' = { old = { default = ${JSON.stringify(urlOrig)}}, new = {default = ${JSON.stringify(bang.u)}}}`.replaceAll(
+						queryPlaceholder,
+						'TEST(QUERY)'
+					)
+				);
 				if (messageLog.length) {
 					_.forEach(messageLog, (s) => console.warn(s));
 				}
