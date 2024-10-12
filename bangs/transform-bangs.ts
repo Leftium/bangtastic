@@ -9,11 +9,13 @@ TidyURL.config.setMany({
 
 import { unescape } from 'node:querystring';
 
+const argv = process.argv;
+
 const options = {
-	trim: process.argv.includes('--trim'),
-	unescapeUrl: process.argv.includes('--unescape-url'),
-	stripGoogle: process.argv.includes('--strip-google'),
-	tidyUrl: process.argv.includes('--tidy-url'),
+	trim: argv.includes('--trim') || argv.includes('--clean-all'),
+	unescapeUrl: argv.includes('--unescape-url') || argv.includes('--clean-all'),
+	stripGoogle: argv.includes('--strip-google') || argv.includes('--clean-all'),
+	tidyUrl: argv.includes('--tidy-url') || argv.includes('--clean-all'),
 	filename: process.argv.at(-1) || ''
 };
 
