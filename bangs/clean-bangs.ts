@@ -2,6 +2,11 @@ import fs from 'node:fs';
 import _ from 'lodash';
 
 import { TidyURL } from 'tidy-url';
+TidyURL.config.setMany({
+	// Prevent debug logging. This option is reversed.
+	silent: false
+});
+
 import { unescape } from 'node:querystring';
 
 const options = {

@@ -86,8 +86,8 @@ devDependencies:
     specifier: ^3.6.4
     version: 3.6.4(postcss@8.4.35)(sass@1.71.1)(svelte@5.0.0-next.68)
   tidy-url:
-    specifier: ^1.11.0
-    version: 1.11.0
+    specifier: ^1.18.3
+    version: 1.18.3
   tslib:
     specifier: ^2.6.2
     version: 2.6.2
@@ -2287,8 +2287,8 @@ packages:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: true
 
-  /tidy-url@1.11.0:
-    resolution: {integrity: sha512-wWe5yJE0I5UeGQ4Lsj1hoHMRXAX2K1/UJJkm2Lhe2IAmRPKhhRmCOyjpgqd/sj7tx+nAH51UTkhvOU4VHqASuQ==}
+  /tidy-url@1.18.3:
+    resolution: {integrity: sha512-NnbmullqE/3loiDoopNltfLb/v6EhX5GYNUVU4EuZjnDjh/NIBzy5dHnhvH3EfIAnZZZMf3cW0HgNw9E+easyg==}
     dev: true
 
   /tiny-glob@0.2.9:
