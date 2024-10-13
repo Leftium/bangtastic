@@ -32006,7 +32006,7 @@
     "s": "Fox Racing",
     "d": "www.foxracing.com",
     "t": "foxracing",
-    "u": "https://www.foxracing.com/store/browse?_dyncharset=UTF-8&Dy=1&Nty=1&searchBox=searchBox&siteScope=ok&_D:siteScope=+&autoSuggestEnabled=true&autoSuggestURL=/store/assembler?assemblerContentCollection=/content/Shared/Auto-Suggest Panels&format=json&Dy=1&Ntt=&minAutoSuggestInputLength=3&/atg/endeca/assembler/SearchFormHandler.search=search&_D:/atg/endeca/assembler/SearchFormHandler.search=+&Ntt={{{s}}}",
+    "u": "https://www.foxracing.com/store/browse?_dyncharset=UTF-8&Dy=1&Nty=1&searchBox=searchBox&siteScope=ok&_D:siteScope=+&autoSuggestEnabled=true&autoSuggestURL=/store/assembler?assemblerContentCollection=/content/Shared/Auto-Suggest Panels%26format=json%26Dy=1%26Ntt=&minAutoSuggestInputLength=3&/atg/endeca/assembler/SearchFormHandler.search=search&_D:/atg/endeca/assembler/SearchFormHandler.search=+&Ntt={{{s}}}",
     "c": "Shopping",
     "sc": "Online"
   },
@@ -42013,7 +42013,7 @@
     "s": "Twitter Hashtags",
     "d": "twitter.com",
     "t": "hashtag",
-    "u": "https://twitter.com/search?q=#{{{s}}}",
+    "u": "https://twitter.com/search?q=%23{{{s}}}",
     "c": "Online Services",
     "sc": "Social"
   },
@@ -48228,7 +48228,7 @@
     "s": "Jisho (kanji search)",
     "d": "jisho.org",
     "t": "jik",
-    "u": "https://jisho.org/search/#kanji {{{s}}}",
+    "u": "https://jisho.org/search/%23kanji {{{s}}}",
     "c": "Research",
     "sc": "Learning (intl)",
     "fmt": [
@@ -57533,7 +57533,7 @@
     "s": "Medibus.info Katalogsuche",
     "d": "www.translatetheweb.com",
     "t": "medi",
-    "u": "https://www.translatetheweb.com/?item1={{{s}}}&field=all&maxKurztitel=25&sachgruppen=0&sachgruppenSchulfaecher=0&media=all&local=0&produzent=0&article_id=23&submitEinfacheSuche=Find+Titles&from=&to=en&a=http://medibus.info/index.php?article_id=23#einfSucheInfo&f=1",
+    "u": "https://www.translatetheweb.com/?item1={{{s}}}&field=all&maxKurztitel=25&sachgruppen=0&sachgruppenSchulfaecher=0&media=all&local=0&produzent=0&article_id=23&submitEinfacheSuche=Find+Titles&from=&to=en&a=http://medibus.info/index.php?article_id=23%23einfSucheInfo&f=1",
     "c": "Research",
     "sc": "Topical"
   },
@@ -104305,7 +104305,7 @@
     "s": "youzeek",
     "d": "youzeek.com",
     "t": "yz",
-    "u": "https://youzeek.com/?lng=RU#xPAGE_V3-Artist_?lng=RU&Artist={{{s}}}&page=General",
+    "u": "https://youzeek.com/?lng=RU#xPAGE_V3-Artist_?lng=RU%26Artist={{{s}}}%26page=General",
     "c": "Multimedia",
     "sc": "Music"
   },

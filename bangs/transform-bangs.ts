@@ -9,6 +9,17 @@ TidyURL.config.setMany({
 
 import { unescape } from 'node:querystring';
 
+function unescapeUrlTemplate(urlTemplate: string) {
+	const protectedHash = 'PRESERVE_ENCODED_HASH';
+	const protectedAmp = 'PRESERVE_ENCODED_AMP';
+
+	urlTemplate = urlTemplate.replaceAll('%23', protectedHash).replaceAll('%26', protectedAmp);
+	urlTemplate = unescape(urlTemplate);
+	urlTemplate = urlTemplate.replaceAll(protectedHash, '%23').replaceAll(protectedAmp, '%26');
+
+	return urlTemplate;
+}
+
 const argv = process.argv;
 
 const options = {
@@ -101,7 +112,7 @@ try {
 				let newUrl = url;
 
 				while (oldUrl !== newUrl) {
-					[oldUrl, newUrl] = [newUrl, unescape(newUrl)];
+					[oldUrl, newUrl] = [newUrl, unescapeUrlTemplate(newUrl)];
 					if (oldUrl != newUrl) {
 						messageLog.push(`unescape: ${oldUrl}`);
 					}
