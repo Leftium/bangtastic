@@ -70,7 +70,11 @@ try {
 				// Strip extra Google custom search engine params.
 				if (urlObject.searchParams.get('cof')?.toLowerCase().includes('forid')) {
 					[...urlObject.searchParams.entries()]
-						.filter(([, value]) => !value.includes(temporarySafePlaceholder))
+						.filter(
+							([key, value]) =>
+								(key !== 'cx' || !bang.d?.includes('google.com')) &&
+								!value.includes(temporarySafePlaceholder)
+						)
 						.forEach(([key, value]) => {
 							messageLog.push(`removed: ${key}=${value}`);
 							urlObject.searchParams.delete(key, value);
