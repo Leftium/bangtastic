@@ -19,6 +19,9 @@ devDependencies:
   '@stenway/oml':
     specifier: ^1.1.0
     version: 1.1.0
+  '@stenway/wsv':
+    specifier: ^1.1.0
+    version: 1.1.0
   '@sveltejs/adapter-auto':
     specifier: ^3.1.1
     version: 3.1.1(@sveltejs/kit@2.5.1)
@@ -752,6 +755,12 @@ packages:
   /@stenway/reliabletxt@1.1.0:
     resolution: {integrity: sha512-4sM0Q8bHvRkVt9qg854A67kxktQGfg2HhqaY3zD90JkzfWkgqlR+C6f6qKx9MgBdVIq06yV58Uma/9sbXPjFHQ==}
     engines: {node: '>=14.16'}
+    dev: true
+
+  /@stenway/wsv@1.1.0:
+    resolution: {integrity: sha512-CjsW/KW7VgiRgm1pvInZsZiHA3JvF+xRh6wQFge/15HiQDSthX59CSawNKCCPs6HpmnhOYSKuINb+D14OtJ0Sw==}
+    dependencies:
+      '@stenway/reliabletxt': 1.1.0
     dev: true
 
   /@sveltejs/adapter-auto@3.1.1(@sveltejs/kit@2.5.1):

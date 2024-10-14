@@ -21,6 +21,7 @@
 	"devDependencies": {
 		"@picocss/pico": "2.0.3",
 		"@stenway/oml": "^1.1.0",
+		"@stenway/wsv": "^1.1.0",
 		"@sveltejs/adapter-auto": "^3.1.1",
 		"@sveltejs/kit": "^2.5.1",
 		"@sveltejs/vite-plugin-svelte": "^3.0.2",

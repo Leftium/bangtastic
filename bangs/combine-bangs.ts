@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { unescape } from 'node:querystring';
+import { WsvLine } from '@stenway/wsv';
 
 // Just for the bang rankings.
 import duckBangs from '$bangdata/duckduckgo/bang.json';
@@ -16,6 +17,55 @@ TidyURL.config.setMany({
 const queryPlaceholder = '{q}';
 const bangProviderPlaceHolder = '{b}'; // Example: `duckduckgo.com`
 const siteProviderPlaceHolder = '{s}'; // Example: `google.com`
+
+type QuoteChar = `'` | `"`;
+const SINGLEQUOTE_CHAR = `'`;
+const DOUBLEQUOTE_CHAR = `"`;
+
+function setWsvStringEscapQuoteChar(targetQuoteChar: QuoteChar, wsvLine: string) {
+	const otherQuoteChar = targetQuoteChar === SINGLEQUOTE_CHAR ? DOUBLEQUOTE_CHAR : SINGLEQUOTE_CHAR;
+	let result = '';
+	let inQuotes = false;
+
+	const length = wsvLine.length;
+	for (let i = 0; i < length; i++) {
+		const char = wsvLine[i];
+		const nextCharIsSame = char === wsvLine[i + 1];
+
+		if (!inQuotes && char === otherQuoteChar) {
+			inQuotes = true;
+			result += targetQuoteChar;
+		} else if (inQuotes && char === otherQuoteChar) {
+			if (nextCharIsSame) {
+				i++;
+				result += otherQuoteChar;
+			} else {
+				inQuotes = false;
+				result += targetQuoteChar;
+			}
+		} else if (inQuotes && char === targetQuoteChar) {
+			result += targetQuoteChar + targetQuoteChar;
+		} else {
+			result += char;
+		}
+	}
+
+	if (inQuotes) {
+		throw `Unclosed string in: ${wsvLine}`;
+	}
+
+	return result;
+}
+
+// Function to convert WSV to SingleWSV
+function wsvSingle(wsvString: string) {
+	return setWsvStringEscapQuoteChar(SINGLEQUOTE_CHAR, wsvString);
+}
+
+// Function to convert SingleWSV to WSV
+function wsvDouble(wsvString: string) {
+	return setWsvStringEscapQuoteChar(DOUBLEQUOTE_CHAR, wsvString);
+}
 
 function stripProtocol(url: string) {
 	return url.replace(/^https?:\/\//, '');
@@ -103,34 +153,64 @@ const bangs = _.chain(kagiBangs)
 			keepProtocol: false,
 			keepCase: false
 		}),
-		r: triggerToDuckBang?.[bang.t]?.r ?? -1
+		r: triggerToDuckBang?.[bang.t]?.r ?? 0
 	}))
-	.filter(({ r }) => r > 1)
+	///.filter(({ r }) => r < 1)
 	.orderBy(['r'], ['desc'])
 	.groupBy('n')
-	.map((sources, n) => {
+	.filter((sources) => sources.length > 4)
+	.map((sources) => {
 		const maxRank = _.max(_.map(sources, 'r'));
 
 		function getRanks(prop: 'label' | keyof (typeof sources)[0]) {
-			return _.chain(sources)
+			const result = _.chain(sources)
 				.reduce((result, bang) => {
-					const mapKey = prop !== 'label' ? bang[prop] : [bang['c'], bang['sc']];
+					const mapKey =
+						prop !== 'label'
+							? (bang[prop] as string)
+							: wsvSingle(WsvLine.serialize([bang['c'] || null, bang['sc'] || null]));
+					const mapKeyLowerCase = mapKey.toLocaleLowerCase();
 
 					if (!_.isEqual(mapKey, [undefined, undefined])) {
-						if (!result.has(mapKey)) {
-							result.set(mapKey, []);
+						if (!result.has(mapKeyLowerCase)) {
+							result.set(mapKeyLowerCase, []);
 						}
-						result.get(mapKey).push(bang.r);
+						result.get(mapKeyLowerCase).push([bang.r, mapKey]);
 					}
 					return result;
 				}, new Map())
 				.value();
+			return result;
 		}
 
+		// Get summary, prefer from rated bangs, longer titles.
+		const s = _.chain(sources)
+			.orderBy([({ r }) => r > 0, ({ s }) => s.length], ['desc', 'desc'])
+			.head()
+			.get('s')
+			.value();
+
 		const summaryRanks = getRanks('s');
-		const urlRanks = getRanks('u');
-		const triggerRanks = getRanks('t');
+		// const urlRanks = getRanks('u');
+		// const triggerRanks = getRanks('t');
 		const labelRanks = getRanks('label');
+
+		// const summaries = [...summaryRanks.keys()];
+		const summaries = [...summaryRanks.values()].map((value) => {
+			return value[0]?.[1];
+		});
+
+		_.each(summaries, (summary) => {
+			if (summary !== s) {
+				const key = wsvSingle(WsvLine.serialize(['Alt-Summary', summary]));
+				const keyLowerCase = key.toLocaleLowerCase();
+				labelRanks.set(keyLowerCase, [[-1, key]]);
+			}
+		});
+
+		const labels = [...labelRanks.values()].map((value) => {
+			return value[0]?.[1];
+		});
 
 		// Get shortest url, preferring https.
 		const u = _.chain(sources)
@@ -140,19 +220,45 @@ const bangs = _.chain(kagiBangs)
 			.value()
 			.replaceAll('{{{s}}}', queryPlaceholder);
 
+		// Get shortest trigger; higher r breaks ties.
+		const tShort = _.chain(sources)
+			.orderBy([({ t }) => t.length, 'r'], ['asc', 'desc'])
+			.head()
+			.get('t')
+			.value();
+
+		// Get longest trigger; higher r breaks ties.
+		const tlong = _.chain(sources)
+			.orderBy([({ t }) => t.length, 'r'], ['desc', 'desc'])
+			.head()
+			.get('t')
+			.value();
+
+		// Make list of triggers with shortest and longest first.
+		const t = _.uniq(_.concat(tShort, tlong, _.map(sources, 't')));
+		console.warn(t);
+
 		const d =
-			siteDomain('http://' + n) || _.chain(sources).map('d').sortBy(['length']).head().value();
+			siteDomain('http://' + sources[0].n) ||
+			_.chain(sources).map('d').sortBy(['length']).head().value();
+
 		return {
-			n,
-			u,
-			r: maxRank,
+			// n: sources[0].n,
+			s,
+			t,
+			u: [u],
 			d,
+			labels,
+
+			r: maxRank,
+			summaries,
 			summaryRanks: Object.fromEntries(summaryRanks),
-			urlRanks: Object.fromEntries(urlRanks),
-			triggerRanks: Object.fromEntries(triggerRanks),
+			// urlRanks: Object.fromEntries(urlRanks),
+			// triggerRanks: Object.fromEntries(triggerRanks),
 			labelRanks: Object.fromEntries(labelRanks),
 			sources
 		};
-	});
+	})
+	.filter((item) => Object.keys(item.labelRanks).length > 3);
 
 console.log(JSON.stringify(bangs, null, '\t'));
