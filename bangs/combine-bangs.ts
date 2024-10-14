@@ -235,7 +235,7 @@ const bangs = _.chain(kagiBangs)
 			.value();
 
 		// Make list of triggers with shortest and longest first.
-		const t = _.uniq(_.concat(tShort, tlong, _.map(sources, 't')));
+		const t = _.uniq(_.concat(tShort, tlong, _.map(sources, 't'))).map((trigger) => `!${trigger}`);
 		console.warn(t);
 
 		const d =

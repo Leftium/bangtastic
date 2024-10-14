@@ -2,14 +2,14 @@
 	{
 		"s": "Subreddit on Reddit",
 		"t": [
-			"sr",
-			"subreddit",
-			"reddits",
-			"rds",
-			"rsub",
-			"subr",
-			"sreddit",
-			"sbr"
+			"!sr",
+			"!subreddit",
+			"!reddits",
+			"!rds",
+			"!rsub",
+			"!subr",
+			"!sreddit",
+			"!sbr"
 		],
 		"u": [
 			"https://reddit.com/r/{q}"
@@ -229,13 +229,13 @@
 	{
 		"s": "Wikipedia Deutschland",
 		"t": [
-			"wde",
-			"wikipediade",
-			"wikide",
-			"w.de",
-			"dewiki",
-			"wge",
-			"wiki.de"
+			"!wde",
+			"!wikipediade",
+			"!wikide",
+			"!w.de",
+			"!dewiki",
+			"!wge",
+			"!wiki.de"
 		],
 		"u": [
 			"https://de.wikipedia.org/w/index.php?search={q}"
@@ -427,13 +427,13 @@
 	{
 		"s": "Wolfram Alpha",
 		"t": [
-			"wa",
-			"wolframalpha",
-			"wolfram",
-			"wolf",
-			"alpha",
-			"wra",
-			"walpha"
+			"!wa",
+			"!wolframalpha",
+			"!wolfram",
+			"!wolf",
+			"!alpha",
+			"!wra",
+			"!walpha"
 		],
 		"u": [
 			"https://wolframalpha.com/input?i={q}"
@@ -603,17 +603,17 @@
 	{
 		"s": "Amazon Deutschland",
 		"t": [
-			"ade",
-			"amazon_de",
-			"amazonde",
-			"amde",
-			"ama",
-			"azd",
-			"a.de",
-			"age",
-			"a.at",
-			"ager",
-			"amznde"
+			"!ade",
+			"!amazon_de",
+			"!amazonde",
+			"!amde",
+			"!ama",
+			"!azd",
+			"!a.de",
+			"!age",
+			"!a.at",
+			"!ager",
+			"!amznde"
 		],
 		"u": [
 			"https://www.amazon.de/s?k={q}"
@@ -871,12 +871,12 @@
 	{
 		"s": "http://www.merriam-webster.com/",
 		"t": [
-			"mw",
-			"merriamwebster",
-			"mwd",
-			"dic",
-			"dmw",
-			"mweb"
+			"!mw",
+			"!merriamwebster",
+			"!mwd",
+			"!dic",
+			"!dmw",
+			"!mweb"
 		],
 		"u": [
 			"https://www.merriam-webster.com/dictionary/{q}"
@@ -1037,11 +1037,11 @@
 	{
 		"s": "magiccards.info",
 		"t": [
-			"mtg",
-			"scryfall",
-			"scry",
-			"sfa",
-			"sfl"
+			"!mtg",
+			"!scryfall",
+			"!scry",
+			"!sfa",
+			"!sfl"
 		],
 		"u": [
 			"https://scryfall.com/search?q={q}"
@@ -1174,13 +1174,13 @@
 	{
 		"s": "Internet Archive: Wayback Machine",
 		"t": [
-			"ia",
-			"waybackmachine",
-			"wayback",
-			"wbm",
-			"webarchive",
-			"archived",
-			"archiveweb"
+			"!ia",
+			"!waybackmachine",
+			"!wayback",
+			"!wbm",
+			"!webarchive",
+			"!archived",
+			"!archiveweb"
 		],
 		"u": [
 			"https://web.archive.org/web/*/{q}"
@@ -1413,13 +1413,13 @@
 	{
 		"s": "The Free Dictionary",
 		"t": [
-			"d",
-			"thefreedictionary",
-			"define",
-			"def",
-			"tfd",
-			"dictionary",
-			"idioms"
+			"!d",
+			"!thefreedictionary",
+			"!define",
+			"!def",
+			"!tfd",
+			"!dictionary",
+			"!idioms"
 		],
 		"u": [
 			"https://www.thefreedictionary.com/{q}"
@@ -1581,13 +1581,13 @@
 	{
 		"s": "Thesaurus at Reference.com",
 		"t": [
-			"t",
-			"synonyms",
-			"thes",
-			"syn",
-			"synonym",
-			"like",
-			"tref"
+			"!t",
+			"!synonyms",
+			"!thes",
+			"!syn",
+			"!synonym",
+			"!like",
+			"!tref"
 		],
 		"u": [
 			"https://thesaurus.com/browse/{q}"
@@ -1766,11 +1766,11 @@
 	{
 		"s": "dict.cc free dictionary (de<>en)",
 		"t": [
-			"dcc",
-			"dict.cc",
-			"dictcc",
-			"deen",
-			"dende"
+			"!dcc",
+			"!dict.cc",
+			"!dictcc",
+			"!deen",
+			"!dende"
 		],
 		"u": [
 			"https://www.dict.cc/?s={q}"
@@ -1914,11 +1914,11 @@
 	{
 		"s": "Wikipedia (English)",
 		"t": [
-			"wi",
-			"encyclopedia",
-			"w.en",
-			"w-es",
-			"wikispecies"
+			"!wi",
+			"!encyclopedia",
+			"!w.en",
+			"!w-es",
+			"!wikispecies"
 		],
 		"u": [
 			"https://en.wikipedia.org/wiki/Special:Search?search={q}"
@@ -2071,13 +2071,13 @@
 	{
 		"s": "Amazon India",
 		"t": [
-			"ain",
-			"amazon.in",
-			"amazonin",
-			"amin",
-			"a.in",
-			"amznin",
-			"azi"
+			"!ain",
+			"!amazon.in",
+			"!amazonin",
+			"!amin",
+			"!a.in",
+			"!amznin",
+			"!azi"
 		],
 		"u": [
 			"https://www.amazon.in/s?k={q}"
@@ -2249,11 +2249,11 @@
 	{
 		"s": "Python3 Documentation",
 		"t": [
-			"py",
-			"python3",
-			"python",
-			"py3",
-			"py3k"
+			"!py",
+			"!python3",
+			"!python",
+			"!py3",
+			"!py3k"
 		],
 		"u": [
 			"https://docs.python.org/3/search.html?q={q}"
@@ -2400,11 +2400,11 @@
 	{
 		"s": "Amazon Spain",
 		"t": [
-			"aes",
-			"amazones",
-			"ames",
-			"a.es",
-			"aze"
+			"!aes",
+			"!amazones",
+			"!ames",
+			"!a.es",
+			"!aze"
 		],
 		"u": [
 			"https://www.amazon.es/s?k={q}"
@@ -2547,11 +2547,11 @@
 	{
 		"s": "Debian Packages",
 		"t": [
-			"deb",
-			"debpackages",
-			"dpkg",
-			"debianpack",
-			"dpackages"
+			"!deb",
+			"!debpackages",
+			"!dpkg",
+			"!debianpack",
+			"!dpackages"
 		],
 		"u": [
 			"https://packages.debian.org/search?keywords={q}"
@@ -2677,11 +2677,11 @@
 	{
 		"s": "http://amazon.co.jp",
 		"t": [
-			"aj",
-			"amazonjp",
-			"ajp",
-			"amjp",
-			"ajl"
+			"!aj",
+			"!amazonjp",
+			"!ajp",
+			"!amjp",
+			"!ajl"
 		],
 		"u": [
 			"https://www.amazon.co.jp/s?k={q}"
@@ -2814,12 +2814,12 @@
 	{
 		"s": "Ultimate Guitar",
 		"t": [
-			"ug",
-			"ultimate-guitar",
-			"tabs",
-			"ultimateguitar",
-			"gtabs",
-			"chords"
+			"!ug",
+			"!ultimate-guitar",
+			"!tabs",
+			"!ultimateguitar",
+			"!gtabs",
+			"!chords"
 		],
 		"u": [
 			"https://www.ultimate-guitar.com/search.php?search_type=title&value={q}"
@@ -2966,14 +2966,14 @@
 	{
 		"s": "Russian Wikipedia",
 		"t": [
-			"ш",
-			"wikiru",
-			"wru",
-			"ruwiki",
-			"w.ru",
-			"ruwk",
-			"вики",
-			"шру"
+			"!ш",
+			"!wikiru",
+			"!wru",
+			"!ruwiki",
+			"!w.ru",
+			"!ruwk",
+			"!вики",
+			"!шру"
 		],
 		"u": [
 			"https://ru.wikipedia.org/w/index.php?search={q}"
@@ -3180,12 +3180,12 @@
 	{
 		"s": "Google Play Store",
 		"t": [
-			"gp",
-			"googleplay",
-			"play",
-			"gplay",
-			"playstore",
-			"gapp"
+			"!gp",
+			"!googleplay",
+			"!play",
+			"!gplay",
+			"!playstore",
+			"!gapp"
 		],
 		"u": [
 			"https://play.google.com/store/search?q={q}"
@@ -3346,13 +3346,13 @@
 	{
 		"s": "Firefox Add-ons",
 		"t": [
-			"amo",
-			"firefoxaddons",
-			"firefox",
-			"ffa",
-			"fad",
-			"mozaddon",
-			"firefoxaddon"
+			"!amo",
+			"!firefoxaddons",
+			"!firefox",
+			"!ffa",
+			"!fad",
+			"!mozaddon",
+			"!firefoxaddon"
 		],
 		"u": [
 			"https://addons.mozilla.org/search/?q={q}"
@@ -3538,17 +3538,17 @@
 	{
 		"s": "Is It Down For Everyone Or Just Me?",
 		"t": [
-			"isup",
-			"downforme",
-			"down",
-			"downfor",
-			"isitdown",
-			"dfeojm",
-			"down4me",
-			"isoffline",
-			"isonline",
-			"offline",
-			"updown"
+			"!isup",
+			"!downforme",
+			"!down",
+			"!downfor",
+			"!isitdown",
+			"!dfeojm",
+			"!down4me",
+			"!isoffline",
+			"!isonline",
+			"!offline",
+			"!updown"
 		],
 		"u": [
 			"https://downforeveryoneorjustme.com/{q}"
@@ -3806,12 +3806,12 @@
 	{
 		"s": "The Noun Project",
 		"t": [
-			"np",
-			"thenounproject",
-			"noun",
-			"nounproject",
-			"thenoun",
-			"tnp"
+			"!np",
+			"!thenounproject",
+			"!noun",
+			"!nounproject",
+			"!thenoun",
+			"!tnp"
 		],
 		"u": [
 			"https://thenounproject.com/search/?q={q}"
@@ -3962,11 +3962,11 @@
 	{
 		"s": "WordReference.com sinónimos en español",
 		"t": [
-			"wrss",
-			"sinonimo",
-			"wressin",
-			"essin",
-			"wrsyes"
+			"!wrss",
+			"!sinonimo",
+			"!wressin",
+			"!essin",
+			"!wrsyes"
 		],
 		"u": [
 			"https://www.wordreference.com/sinonimos/{q}"
@@ -4129,12 +4129,12 @@
 	{
 		"s": "ScienceDirect",
 		"t": [
-			"scid",
-			"sciencedirect",
-			"scdirect",
-			"scidirect",
-			"scidir",
-			"sdirect"
+			"!scid",
+			"!sciencedirect",
+			"!scdirect",
+			"!scidirect",
+			"!scidir",
+			"!sdirect"
 		],
 		"u": [
 			"https://www.sciencedirect.com/search?qs={q}"
