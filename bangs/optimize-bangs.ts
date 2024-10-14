@@ -57,10 +57,13 @@ try {
 		})
 		.value();
 
-	const cats = _.sortBy(Object.entries(catCounts), (a) => -a[1]).reduce((result, value, index) => {
-		result[value[0]] = index;
-		return result;
-	}, {});
+	const cats = _.sortBy(Object.entries(catCounts), (a) => -a[1]).reduce(
+		(result, value, index) => {
+			result[value[0]] = index;
+			return result;
+		},
+		{} as Record<string, unknown>
+	);
 
 	console.warn(cats);
 

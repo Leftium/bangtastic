@@ -146,7 +146,7 @@ const bangs = _.chain(kagiBangs)
 			n,
 			u,
 			r: maxRank,
-			// d,
+			d,
 			summaryRanks: Object.fromEntries(summaryRanks),
 			urlRanks: Object.fromEntries(urlRanks),
 			triggerRanks: Object.fromEntries(triggerRanks),
