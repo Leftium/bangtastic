@@ -113,12 +113,27 @@ function normalize(
 	return href;
 }
 
+// TODO: Refactor.
 // Extracts domain from site: in search params.
-function siteDomain(u: string) {
-	const url = new URL(u);
+function siteDomain(url: string) {
+	if (url[0] === '/') {
+		// User can switch between DuckDuckGo, Kagi, Google, etc.
+		url = 'http://EXAMPLE.com' + url;
+	}
 
-	if (url.hostname == siteProviderPlaceHolder) {
-		const matchSites = url.search.match(/site:([^+&\]]*)/) || url.search.match(/inurl:([^+&\]]*)/);
+	const temporarySafePlaceholder = 'SAFE_PLACEHOLDER';
+	url = url.replaceAll(queryPlaceholder, temporarySafePlaceholder);
+	const urlObject = new URL(url);
+
+	// 1. Create a case-insensitive regular expression based on URL.hostname.
+	const hostnameRE = new RegExp(urlObject.hostname, 'i');
+
+	// 2. Get the original mixed-cased domain using hostnameRE.
+	const hostnameOriginalCase = url.match(hostnameRE)?.[0] || '';
+
+	if (urlObject.hostname == siteProviderPlaceHolder) {
+		const matchSites =
+			urlObject.search.match(/site:([^+&\]]*)/) || urlObject.search.match(/inurl:([^+&\]]*)/);
 
 		if (matchSites) {
 			return matchSites[1]
@@ -127,10 +142,12 @@ function siteDomain(u: string) {
 				.join(' ');
 		}
 	}
-	if (url.hostname == bangProviderPlaceHolder) {
-		return 'duckduckgo.com';
-	}
-	return url.hostname.replace('www.', '');
+
+	// 3. Replace the lowercase domain with the mixed case domain, gain using hostnameRE.
+	return urlObject.hostname
+		.replace(hostnameRE, hostnameOriginalCase)
+		.replace('www.', '')
+		.replace('EXAMPLE.com', '/');
 }
 
 // Make map of triggers to rankings
@@ -158,7 +175,8 @@ const bangs = _.chain(kagiBangs)
 	///.filter(({ r }) => r < 1)
 	.orderBy(['r'], ['desc'])
 	.groupBy('n')
-	.filter((sources) => sources.length > 4)
+	//.filter((sources) => sources.length > 4)
+	//.filter((sources) => ['aph'].includes(sources[0].t))
 	.map((sources) => {
 		const maxRank = _.max(_.map(sources, 'r'));
 
@@ -171,7 +189,7 @@ const bangs = _.chain(kagiBangs)
 							: wsvSingle(WsvLine.serialize([bang['c'] || null, bang['sc'] || null]));
 					const mapKeyLowerCase = mapKey.toLocaleLowerCase();
 
-					if (!_.isEqual(mapKey, [undefined, undefined])) {
+					if (!_.isEqual(mapKey, '- -')) {
 						if (!result.has(mapKeyLowerCase)) {
 							result.set(mapKeyLowerCase, []);
 						}
@@ -236,11 +254,9 @@ const bangs = _.chain(kagiBangs)
 
 		// Make list of triggers with shortest and longest first.
 		const t = _.uniq(_.concat(tShort, tlong, _.map(sources, 't'))).map((trigger) => `!${trigger}`);
-		console.warn(t);
 
 		const d =
-			siteDomain('http://' + sources[0].n) ||
-			_.chain(sources).map('d').sortBy(['length']).head().value();
+			siteDomain(sources[0].u) || _.chain(sources).map('d').sortBy(['length']).head().value();
 
 		return {
 			// n: sources[0].n,
@@ -259,6 +275,7 @@ const bangs = _.chain(kagiBangs)
 			sources
 		};
 	})
-	.filter((item) => Object.keys(item.labelRanks).length > 3);
+	//.filter((item) => Object.keys(item.labelRanks).length > 3);
+	.value();
 
 console.log(JSON.stringify(bangs, null, '\t'));
