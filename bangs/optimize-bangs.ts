@@ -2,7 +2,6 @@ import fs from 'node:fs';
 import _ from 'lodash';
 
 import normalizeUrl from 'normalize-url';
-// import { unescape } from 'node:querystring';
 
 // Make sure we got a filename on the command line.
 if (process.argv.length < 3) {
