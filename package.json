@@ -19,7 +19,7 @@
 		"optimize-bangs": "esrun ./bangs/optimize-bangs.ts"
 	},
 	"devDependencies": {
-		"@picocss/pico": "2.0.3",
+		"@leftium/nimble.css": "^0.7.0",
 		"@stenway/oml": "^1.1.0",
 		"@stenway/wsv": "^1.1.0",
 		"@sveltejs/adapter-auto": "^3.1.1",

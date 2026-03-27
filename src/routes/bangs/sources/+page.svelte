@@ -35,7 +35,7 @@
 	}
 </script>
 
-<main class="pico container-fluid">
+<main class="fluid full-bleed">
 	<table>
 		<thead>
 			<tr class="header-row">

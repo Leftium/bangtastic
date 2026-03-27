@@ -1,4 +1,3 @@
-@use '@picocss/pico/scss/pico' with (
-	$parent-selector: '.pico',
-	$theme-color: 'blue'
+@use '@leftium/nimble.css/scss' with (
+	$primary-hue: 250
 );

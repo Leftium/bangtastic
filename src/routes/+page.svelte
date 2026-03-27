@@ -80,7 +80,7 @@
 
 <svelte:document {onvisibilitychange} {onmousedown} />
 
-<main class="pico container-fluid" role="none">
+<main class="fluid full-bleed">
 	<!-- svelte-ignore a11y-autofocus -->
 	<input
 		bind:this={inputElement}
