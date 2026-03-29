@@ -35,7 +35,7 @@
 	}
 </script>
 
-<main class="fluid full-bleed">
+<main class="fluid bleed-full">
 	<table>
 		<thead>
 			<tr class="header-row">

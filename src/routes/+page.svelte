@@ -80,7 +80,7 @@
 
 <svelte:document {onvisibilitychange} {onmousedown} />
 
-<main class="fluid full-bleed">
+<main class="fluid bleed-full">
 	<!-- svelte-ignore a11y-autofocus -->
 	<input
 		bind:this={inputElement}

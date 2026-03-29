@@ -25,7 +25,7 @@
 	}
 </script>
 
-<article class="no-nimble full-bleed table scroll-y vincjo-datatables">
+<article class="no-nimble bleed-full table scroll-y vincjo-datatables">
 	<Datatable
 		{handler}
 		rowCount={'header'}
