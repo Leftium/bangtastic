@@ -16,8 +16,8 @@ importers:
         version: 4.17.21
     devDependencies:
       '@leftium/nimble.css':
-        specifier: ^0.13.0
-        version: 0.13.0
+        specifier: ^0.16.0
+        version: 0.16.0
       '@stenway/oml':
         specifier: ^1.1.0
         version: 1.1.0
@@ -433,8 +433,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.22':
     resolution: {integrity: sha512-Wf963MzWtA2sjrNt+g18IAln9lKnlRp+K2eH4jjIoF1wYeq3aMREpG09xhlhdzS0EjwU7qmUJYangWa+151vZw==}
 
-  '@leftium/nimble.css@0.13.0':
-    resolution: {integrity: sha512-b19vkJGa/bJNbRKfBAW9CJaTJtX2h0UWl3PZXWtbdbyTidICulBetbfluBRthDklPKQVBdsrxZZX/ogwzAfBKA==}
+  '@leftium/nimble.css@0.16.0':
+    resolution: {integrity: sha512-LoUPpUn773UNx1ti1wIY2m/lgCXmnmEtT2P6oa6m9vc9Aagm2qSqeQypz3uZpJH1v5eiuAXLVnn29ozuzj1b+g==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -1662,7 +1662,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  '@leftium/nimble.css@0.13.0': {}
+  '@leftium/nimble.css@0.16.0': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
